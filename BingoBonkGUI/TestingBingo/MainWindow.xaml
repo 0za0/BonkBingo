@@ -1,0 +1,65 @@
+﻿<Window x:Class="BionicleHeroesBingoGUI.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:BionicleHeroesBingoGUI"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="500" Width="840">
+    <Grid >
+        <Grid Background="#FFDA9090" ShowGridLines="True" Height="400" Width="400" x:Name="MainGrid" Margin="259,17,141,17">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+        </Grid>
+
+
+        <StackPanel Margin="25,30,0,29" Width="247" HorizontalAlignment="Left">
+            <StackPanel.Resources>
+                <Style TargetType="{x:Type CheckBox}">
+                    <Setter Property="Margin" Value="0,10,0,0"/>
+                </Style>
+                <Style TargetType="{x:Type TextBox}">
+                    <Setter Property="Margin" Value="0,10,0,0"/>
+                </Style>
+                <Style TargetType="{x:Type StackPanel}">
+                    <Setter Property="Margin" Value="0,10,0,0"/>
+                </Style>
+            </StackPanel.Resources>
+            <CheckBox x:Name="Ach1k" Content="Include 1k enemy kills" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+            <CheckBox x:Name="Hewkii" Content="Hewkii" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="54"/>
+            <CheckBox x:Name="Matoro" Content="Matoro" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="127"/>
+            <CheckBox x:Name="Canisters" Content="Canisters" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="127"/>
+            <CheckBox x:Name="CanisterSubdivision" Content="Canister Subdivision" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="127"/>
+            <CheckBox x:Name="Shop" Content="Shop" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="127"/>
+            <CheckBox x:Name="Shop2" Content="Locator" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="127"/>
+            <CheckBox x:Name="Playground" Content="Piraka Playground" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="127"/>
+
+            <TextBox HorizontalAlignment="Left"  TextWrapping="Wrap" Text="Vahki Level 1-3" VerticalAlignment="Top" Width="120"/>
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Stretch" HorizontalAlignment="Left">
+                <StackPanel.Resources>
+                    <Style TargetType="{x:Type Button}">
+                        <Setter Property="Margin" Value="10,10,0,0"/>
+                    </Style>
+                </StackPanel.Resources>
+                <TextBox x:Name="SeedTextBox" TextWrapping="Wrap" Text="-1" VerticalAlignment="Top" Width="120"/>
+                <Button Click="RegenSeedButtonClicked">Regen Seed</Button>
+            </StackPanel>
+
+        </StackPanel>
+        <Button Content="Generate" HorizontalAlignment="Left" Margin="719,422,0,0" VerticalAlignment="Top" Width="99" Click="Generate"/>
+
+
+    </Grid>
+</Window>

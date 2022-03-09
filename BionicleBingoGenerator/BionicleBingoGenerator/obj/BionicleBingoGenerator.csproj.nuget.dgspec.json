@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\0za0\\source\\repos\\BionicleBingoGenerator\\BionicleBingoGenerator\\BionicleBingoGenerator.csproj": {}
+    "D:\\Documents\\GitHub\\BonkBingo\\BionicleBingoGenerator\\BionicleBingoGenerator\\BionicleBingoGenerator.csproj": {}
   },
   "projects": {
-    "C:\\Users\\0za0\\source\\repos\\BionicleBingoGenerator\\BionicleBingoGenerator\\BionicleBingoGenerator.csproj": {
+    "D:\\Documents\\GitHub\\BonkBingo\\BionicleBingoGenerator\\BionicleBingoGenerator\\BionicleBingoGenerator.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\0za0\\source\\repos\\BionicleBingoGenerator\\BionicleBingoGenerator\\BionicleBingoGenerator.csproj",
+        "projectUniqueName": "D:\\Documents\\GitHub\\BonkBingo\\BionicleBingoGenerator\\BionicleBingoGenerator\\BionicleBingoGenerator.csproj",
         "projectName": "BionicleBingoGenerator",
-        "projectPath": "C:\\Users\\0za0\\source\\repos\\BionicleBingoGenerator\\BionicleBingoGenerator\\BionicleBingoGenerator.csproj",
+        "projectPath": "D:\\Documents\\GitHub\\BonkBingo\\BionicleBingoGenerator\\BionicleBingoGenerator\\BionicleBingoGenerator.csproj",
         "packagesPath": "C:\\Users\\0za0\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\0za0\\source\\repos\\BionicleBingoGenerator\\BionicleBingoGenerator\\obj\\",
+        "outputPath": "D:\\Documents\\GitHub\\BonkBingo\\BionicleBingoGenerator\\BionicleBingoGenerator\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "D:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
