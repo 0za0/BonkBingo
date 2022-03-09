@@ -1,0 +1,15 @@
+C:\Users\0za0\source\repos\BionicleBingoGenerator\BionicleBingoGenerator\bin\Debug\net6.0\BionicleBingoGenerator.exe
+C:\Users\0za0\source\repos\BionicleBingoGenerator\BionicleBingoGenerator\bin\Debug\net6.0\BionicleBingoGenerator.deps.json
+C:\Users\0za0\source\repos\BionicleBingoGenerator\BionicleBingoGenerator\bin\Debug\net6.0\BionicleBingoGenerator.runtimeconfig.json
+C:\Users\0za0\source\repos\BionicleBingoGenerator\BionicleBingoGenerator\bin\Debug\net6.0\BionicleBingoGenerator.dll
+C:\Users\0za0\source\repos\BionicleBingoGenerator\BionicleBingoGenerator\bin\Debug\net6.0\BionicleBingoGenerator.pdb
+C:\Users\0za0\source\repos\BionicleBingoGenerator\BionicleBingoGenerator\obj\Debug\net6.0\BionicleBingoGenerator.csproj.AssemblyReference.cache
+C:\Users\0za0\source\repos\BionicleBingoGenerator\BionicleBingoGenerator\obj\Debug\net6.0\BionicleBingoGenerator.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\0za0\source\repos\BionicleBingoGenerator\BionicleBingoGenerator\obj\Debug\net6.0\BionicleBingoGenerator.AssemblyInfoInputs.cache
+C:\Users\0za0\source\repos\BionicleBingoGenerator\BionicleBingoGenerator\obj\Debug\net6.0\BionicleBingoGenerator.AssemblyInfo.cs
+C:\Users\0za0\source\repos\BionicleBingoGenerator\BionicleBingoGenerator\obj\Debug\net6.0\BionicleBingoGenerator.csproj.CoreCompileInputs.cache
+C:\Users\0za0\source\repos\BionicleBingoGenerator\BionicleBingoGenerator\obj\Debug\net6.0\BionicleBingoGenerator.dll
+C:\Users\0za0\source\repos\BionicleBingoGenerator\BionicleBingoGenerator\obj\Debug\net6.0\refint\BionicleBingoGenerator.dll
+C:\Users\0za0\source\repos\BionicleBingoGenerator\BionicleBingoGenerator\obj\Debug\net6.0\BionicleBingoGenerator.pdb
+C:\Users\0za0\source\repos\BionicleBingoGenerator\BionicleBingoGenerator\obj\Debug\net6.0\BionicleBingoGenerator.genruntimeconfig.cache
+C:\Users\0za0\source\repos\BionicleBingoGenerator\BionicleBingoGenerator\obj\Debug\net6.0\ref\BionicleBingoGenerator.dll
