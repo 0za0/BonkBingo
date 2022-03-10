@@ -26,10 +26,26 @@ namespace BionicleHeroesBingoGUI
     {
         BingoLogic bingoLogic = new BingoLogic();
         List<WrapButton> buttons = new List<WrapButton>();
+        BitmapSource bmpSource;
+        
+       
         public MainWindow()
         {
 
             InitializeComponent();
+            CreateButtons();
+            System.Drawing.Image image = System.Drawing.Image.FromFile("Resources/scream.jpg");
+            Bitmap bitmap = new System.Drawing.Bitmap(image);
+            //Create the Bitmap here so we dont have to always re-do it when a button is clicked
+            bmpSource = Imaging.CreateBitmapSourceFromHBitmap(bitmap.GetHbitmap(),
+                                                                            IntPtr.Zero,
+                                                                            Int32Rect.Empty,
+                                                                            BitmapSizeOptions.FromEmptyOptions()
+            );
+            bitmap.Dispose();
+        }
+        void CreateButtons()
+        {
             int count = 0;
             //Add btns to list then apply thingy to them... yk what I mean
             for (int i = 0; i < 5; i++)
@@ -37,8 +53,8 @@ namespace BionicleHeroesBingoGUI
                 for (int j = 0; j < 5; j++)
                 {
                     WrapButton butt = new WrapButton();
-                    
-                    butt.Text= count.ToString();
+
+                    butt.Text = count.ToString();
                     butt.Name = $"B{count}";
 
                     Grid.SetColumn(butt, j);
@@ -51,25 +67,16 @@ namespace BionicleHeroesBingoGUI
                 }
 
             }
-
         }
-
         private void Button_Click(Object sender, RoutedEventArgs e)
         {
-            WrapButton wp = sender as WrapButton;
+            WrapButton? wp = sender as WrapButton;
             int buttonIndex = int.Parse(wp.Name.Remove(0,1));
             //Make sure we dont cause a fuckin memory leak lmfao... 
-            var image = System.Drawing.Image.FromFile("Resources/scream.jpg");
-            var bitmap = new System.Drawing.Bitmap(image);
+            //OK Fixed
 
-            var bitmapSource = Imaging.CreateBitmapSourceFromHBitmap(bitmap.GetHbitmap(),
-                                                                            IntPtr.Zero,
-                                                                            Int32Rect.Empty,
-                                                                            BitmapSizeOptions.FromEmptyOptions()
-            );
-            bitmap.Dispose();
-            buttons[buttonIndex].Background = new ImageBrush(bitmapSource);
-            
+            //buttons[buttonIndex].Background = new ImageBrush(bmpSource);
+            buttons[buttonIndex].Background = new SolidColorBrush(Colors.LightGreen);
         }
 
         private void RegenSeedButtonClicked(object sender, RoutedEventArgs e)
@@ -101,9 +108,8 @@ namespace BionicleHeroesBingoGUI
         void FillButtonText(List<string> bingoboard)
         {
             for (int i = 0; i < bingoboard.Count; i++)
-            {
                 buttons[i].Text = bingoboard[i];
-            }
+            
         }
 
         private void HelpMenu(object sender, RoutedEventArgs e)
@@ -114,7 +120,8 @@ namespace BionicleHeroesBingoGUI
 
         private void AboutMenu(object sender, RoutedEventArgs e)
         {
-
+            AboutMenu a = new AboutMenu();
+            a.Show();
         }
     }
 }

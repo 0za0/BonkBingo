@@ -52,9 +52,12 @@ namespace BionicleHeroesBingoGUI
             //    (bool)Shop.IsChecked,
             //    (bool)Shop2.IsChecked,
             //    (bool)Playground.IsChecked,
-
-            if(seed == -1)
+            
+            //Fixing Seed stuff
+            if (seed == -1)
                 GenerateSeed();
+            else
+                Seed = seed;
 
             if (settings[0])
                 goals.AddRange(ach1k);
