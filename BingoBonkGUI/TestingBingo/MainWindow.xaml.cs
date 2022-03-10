@@ -58,7 +58,7 @@ namespace BionicleHeroesBingoGUI
         {
             WrapButton wp = sender as WrapButton;
             int buttonIndex = int.Parse(wp.Name.Remove(0,1));
-            //Make sure we dont cause a fuckin memory leak lmfao
+            //Make sure we dont cause a fuckin memory leak lmfao... 
             var image = System.Drawing.Image.FromFile("Resources/scream.jpg");
             var bitmap = new System.Drawing.Bitmap(image);
 
