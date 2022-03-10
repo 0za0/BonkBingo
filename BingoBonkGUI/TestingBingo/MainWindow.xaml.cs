@@ -1,5 +1,7 @@
-﻿using System;
+﻿using BionicleHeroesBingoGUI.Views;
+using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,10 +10,12 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
+using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+
 
 namespace BionicleHeroesBingoGUI
 {
@@ -21,34 +25,51 @@ namespace BionicleHeroesBingoGUI
     public partial class MainWindow : Window
     {
         BingoLogic bingoLogic = new BingoLogic();
+        List<WrapButton> buttons = new List<WrapButton>();
         public MainWindow()
         {
 
             InitializeComponent();
-            int count = 1;
-            //Add btns to list then apply thing to them
+            int count = 0;
+            //Add btns to list then apply thingy to them... yk what I mean
             for (int i = 0; i < 5; i++)
             {
                 for (int j = 0; j < 5; j++)
                 {
-                    Button MyControl1 = new Button();
-                    MyControl1.Content = count.ToString();
-                    MyControl1.Name = count.ToString();
+                    WrapButton butt = new WrapButton();
+                    
+                    butt.Text= count.ToString();
+                    butt.Name = $"B{count}";
 
-                    Grid.SetColumn(MyControl1, j);
-                    Grid.SetRow(MyControl1, i);
-                    MainGrid.Children.Add(MyControl1);
+                    Grid.SetColumn(butt, j);
+                    Grid.SetRow(butt, i);
+                    butt.Click += Button_Click;
+                    MainGrid.Children.Add(butt);
 
                     count++;
+                    buttons.Add(butt);
                 }
 
             }
 
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void Button_Click(Object sender, RoutedEventArgs e)
         {
+            WrapButton wp = sender as WrapButton;
+            int buttonIndex = int.Parse(wp.Name.Remove(0,1));
+            //Make sure we dont cause a fuckin memory leak lmfao
+            var image = System.Drawing.Image.FromFile("Resources/scream.jpg");
+            var bitmap = new System.Drawing.Bitmap(image);
 
+            var bitmapSource = Imaging.CreateBitmapSourceFromHBitmap(bitmap.GetHbitmap(),
+                                                                            IntPtr.Zero,
+                                                                            Int32Rect.Empty,
+                                                                            BitmapSizeOptions.FromEmptyOptions()
+            );
+            bitmap.Dispose();
+            buttons[buttonIndex].Background = new ImageBrush(bitmapSource);
+            
         }
 
         private void RegenSeedButtonClicked(object sender, RoutedEventArgs e)
@@ -70,7 +91,29 @@ namespace BionicleHeroesBingoGUI
                 (bool)Playground.IsChecked,
             };
 
-            bingoLogic.GenerateBoard(flags,0,int.Parse(SeedTextBox.Text));
+            FillButtonText(bingoLogic.GenerateBoard(flags, int.Parse(SeedTextBox.Text)));
+
+            foreach (var item in buttons)
+            {
+                item.Background = null;
+            }
+        }
+        void FillButtonText(List<string> bingoboard)
+        {
+            for (int i = 0; i < bingoboard.Count; i++)
+            {
+                buttons[i].Text = bingoboard[i];
+            }
+        }
+
+        private void HelpMenu(object sender, RoutedEventArgs e)
+        {
+            HelpMenu h = new HelpMenu();
+            h.Show();
+        }
+
+        private void AboutMenu(object sender, RoutedEventArgs e)
+        {
 
         }
     }

@@ -42,9 +42,44 @@ namespace BionicleHeroesBingoGUI
         {
             InitLists();
         }
-        public void GenerateBoard(bool[] settings, int vahkiLvl, int seed)
+        public List<string> GenerateBoard(bool[] settings, int seed)
         {
+            //(bool)Ach1k.IsChecked,
+            //    (bool)Hewkii.IsChecked,
+            //    (bool)Matoro.IsChecked,
+            //    (bool)Canisters.IsChecked,
+            //    (bool)CanisterSubdivision.IsChecked,
+            //    (bool)Shop.IsChecked,
+            //    (bool)Shop2.IsChecked,
+            //    (bool)Playground.IsChecked,
 
+            if(seed == -1)
+                GenerateSeed();
+
+            if (settings[0])
+                goals.AddRange(ach1k);
+            if (settings[1])
+                goals.AddRange(hewkii);
+            if (settings[2])
+                goals.AddRange(matoro);
+            if (settings[3])
+                goals.AddRange(canisters);
+            if (settings[4])
+            {
+                goals.AddRange(golds);
+                goals.AddRange(silvers);
+            }
+            if (settings[5])
+                goals.AddRange(shop);
+            if (settings[6])
+                goals.AddRange(shop2);
+            if (settings[7])
+                goals.AddRange(playground);
+            rnd = new Random(Seed);
+
+            List<string> board = goals.OrderBy(x => rnd.Next()).Take(25).ToList();
+            board[12] = "Play Piraka Bluff";
+            return board;
         }
         private void InitLists()
         {
@@ -59,7 +94,6 @@ namespace BionicleHeroesBingoGUI
             goals.AddRange(levels);
             goals.AddRange(achievments);
             goals.AddRange(toakill);
-
         }
     }
 }

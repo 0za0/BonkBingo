@@ -1,8 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "cIfPV0AZ55xLncimOO/4tFiJ5Ke3brqR6pi7phY5IEf0J8or4BpKBATVwGgXoPg+pcUiw9ZnK4HV23gCXsGDwg==",
+  "dgSpecHash": "YvFk3/uPHEaakAEbPbpPz0310+I7A6N8dRkVw90LlE40gtsdv2pRMbC1qOff2IoBWgtdMZxnma24UNeJ0LwgsA==",
   "success": true,
-  "projectFilePath": "C:\\Users\\0za0\\source\\repos\\TestingBingo\\TestingBingo\\BionicleHeroesBingoGUI.csproj",
-  "expectedPackageFiles": [],
+  "projectFilePath": "D:\\Documents\\GitHub\\BonkBingo\\BingoBonkGUI\\TestingBingo\\BionicleHeroesBingoGUI.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\0za0\\.nuget\\packages\\microsoft.win32.systemevents\\6.0.0\\microsoft.win32.systemevents.6.0.0.nupkg.sha512",
+    "C:\\Users\\0za0\\.nuget\\packages\\system.drawing.common\\6.0.0\\system.drawing.common.6.0.0.nupkg.sha512"
+  ],
   "logs": []
 }

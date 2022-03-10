@@ -5,8 +5,14 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BionicleHeroesBingoGUI"
         mc:Ignorable="d"
-        Title="MainWindow" Height="500" Width="840">
+        Title="Bingo Bango Bongo" Height="500" Width="840">
     <Grid >
+        <Menu DockPanel.Dock="Top" >
+            <MenuItem Header="Help" Click="HelpMenu">
+            </MenuItem>
+            <MenuItem Header="About" Click="AboutMenu">
+            </MenuItem>
+        </Menu>
         <Grid Background="#FFDA9090" ShowGridLines="True" Height="400" Width="400" x:Name="MainGrid" Margin="259,17,141,17">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
