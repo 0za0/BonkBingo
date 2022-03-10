@@ -74,9 +74,11 @@ namespace BionicleHeroesBingoGUI
             int buttonIndex = int.Parse(wp.Name.Remove(0,1));
             //Make sure we dont cause a fuckin memory leak lmfao... 
             //OK Fixed
-
-            //buttons[buttonIndex].Background = new ImageBrush(bmpSource);
-            buttons[buttonIndex].Background = new SolidColorBrush(Colors.LightGreen);
+            if ((bool)UseImages.IsChecked)
+                buttons[buttonIndex].Background = new ImageBrush(bmpSource);
+            else
+                buttons[buttonIndex].Background = new SolidColorBrush(Colors.LightGreen);
+            
         }
 
         private void RegenSeedButtonClicked(object sender, RoutedEventArgs e)
@@ -96,6 +98,7 @@ namespace BionicleHeroesBingoGUI
                 (bool)Shop.IsChecked,
                 (bool)Shop2.IsChecked,
                 (bool)Playground.IsChecked,
+                
             };
 
             FillButtonText(bingoLogic.GenerateBoard(flags, int.Parse(SeedTextBox.Text)));
