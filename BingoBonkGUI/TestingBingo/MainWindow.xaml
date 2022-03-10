@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BionicleHeroesBingoGUI"
         mc:Ignorable="d"
-        Title="Bingo Bango Bongo" Height="500" Width="840">
+        Title="Bingo Bango Bongo" Height="500" Width="840" Topmost="True">
     <Grid >
         <Menu DockPanel.Dock="Top" >
             <MenuItem Header="Help" Click="HelpMenu">
@@ -13,7 +13,7 @@
             <MenuItem Header="About" Click="AboutMenu">
             </MenuItem>
         </Menu>
-        <Grid Background="#FFDA9090" ShowGridLines="True" Height="400" Width="400" x:Name="MainGrid" Margin="259,17,141,17">
+        <Grid Background="#FFDA9090" ShowGridLines="True"  x:Name="MainGrid" Margin="259,17,141,17" >
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
                 <ColumnDefinition/>
@@ -63,9 +63,10 @@
                 <TextBox x:Name="SeedTextBox" TextWrapping="Wrap" Text="-1" VerticalAlignment="Top" Width="120"/>
                 <Button Click="RegenSeedButtonClicked">Regen Seed</Button>
             </StackPanel>
+            <Button Content="Generate"  Click="Generate"  VerticalAlignment="Top" HorizontalAlignment="Left"  />
 
         </StackPanel>
-        <Button Content="Generate" HorizontalAlignment="Left" Margin="719,422,0,0" VerticalAlignment="Top" Width="99" Click="Generate"/>
+       
 
 
     </Grid>

@@ -13,7 +13,7 @@ namespace BionicleHeroesBingoGUI
     {
         public static readonly DependencyProperty TextProperty = DependencyProperty.Register("Text", typeof(string), typeof(WrapButton), new PropertyMetadata(string.Empty));
         public string Text { get { return (string)GetValue(TextProperty); } set { SetValue(TextProperty, value); } }
-
+        public bool IsClicked { get; set; }
         public WrapButton()
         {
             var textBlock = new TextBlock { TextAlignment = TextAlignment.Center, TextWrapping = TextWrapping.Wrap };

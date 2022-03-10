@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BionicleHeroesBingoGUI.Views"
         mc:Ignorable="d"
-        Title="HelpMenu" Height="350" Width="900">
+        Title="HelpMenu" Height="350" Width="900" Topmost="True">
     <Grid>
        
         <TextBlock x:Name="HelpText" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Center" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Center" FontFamily="Consolas" FontSize="14" />

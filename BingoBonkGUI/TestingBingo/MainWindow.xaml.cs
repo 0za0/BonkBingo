@@ -27,8 +27,8 @@ namespace BionicleHeroesBingoGUI
         BingoLogic bingoLogic = new BingoLogic();
         List<WrapButton> buttons = new List<WrapButton>();
         BitmapSource bmpSource;
-        
-       
+
+
         public MainWindow()
         {
 
@@ -61,6 +61,7 @@ namespace BionicleHeroesBingoGUI
                     Grid.SetRow(butt, i);
                     butt.Click += Button_Click;
                     MainGrid.Children.Add(butt);
+                    butt.IsClicked = false;
 
                     count++;
                     buttons.Add(butt);
@@ -71,14 +72,26 @@ namespace BionicleHeroesBingoGUI
         private void Button_Click(Object sender, RoutedEventArgs e)
         {
             WrapButton? wp = sender as WrapButton;
-            int buttonIndex = int.Parse(wp.Name.Remove(0,1));
+            int buttonIndex = int.Parse(wp.Name.Remove(0, 1));
+            buttons[buttonIndex].IsClicked = !buttons[buttonIndex].IsClicked;//Toggle on off
             //Make sure we dont cause a fuckin memory leak lmfao... 
-            //OK Fixed
-            if ((bool)UseImages.IsChecked)
-                buttons[buttonIndex].Background = new ImageBrush(bmpSource);
+            //OK Fixed, Memory leaks are no more
+
+
+            if (buttons[buttonIndex].IsClicked)
+            {
+                if ((bool)UseImages.IsChecked)
+                    buttons[buttonIndex].Background = new ImageBrush(bmpSource);
+                else
+                    buttons[buttonIndex].Background = new SolidColorBrush(Colors.LightGreen);
+            }
             else
-                buttons[buttonIndex].Background = new SolidColorBrush(Colors.LightGreen);
-            
+            {
+                buttons[buttonIndex].Background = null;
+            }
+
+
+
         }
 
         private void RegenSeedButtonClicked(object sender, RoutedEventArgs e)
@@ -88,8 +101,23 @@ namespace BionicleHeroesBingoGUI
 
         private void Generate(object sender, RoutedEventArgs e)
         {
-            bool[] flags = new bool[]
+            bool createNewBoard = false;
+            if (!buttons.Any(x => x.IsClicked == true))
             {
+                createNewBoard = true;
+            }
+            else
+            {
+                ConfirmBoardCreation c = new ConfirmBoardCreation();
+                c.SetYesButtonEvent((obj, ev) => { createNewBoard = true; c.Close(); });
+                c.ShowDialog();
+            }
+
+
+            if (createNewBoard)
+            {
+                bool[] flags = new bool[]
+                {
                 (bool)Ach1k.IsChecked,
                 (bool)Hewkii.IsChecked,
                 (bool)Matoro.IsChecked,
@@ -98,21 +126,22 @@ namespace BionicleHeroesBingoGUI
                 (bool)Shop.IsChecked,
                 (bool)Shop2.IsChecked,
                 (bool)Playground.IsChecked,
-                
-            };
 
-            FillButtonText(bingoLogic.GenerateBoard(flags, int.Parse(SeedTextBox.Text)));
+                };
 
-            foreach (var item in buttons)
-            {
-                item.Background = null;
+                FillButtonText(bingoLogic.GenerateBoard(flags, int.Parse(SeedTextBox.Text)));
+
+                foreach (var item in buttons)
+                {
+                    item.Background = null;
+                    item.IsClicked = false;
+                }
             }
         }
         void FillButtonText(List<string> bingoboard)
         {
             for (int i = 0; i < bingoboard.Count; i++)
                 buttons[i].Text = bingoboard[i];
-            
         }
 
         private void HelpMenu(object sender, RoutedEventArgs e)

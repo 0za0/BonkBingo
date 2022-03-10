@@ -1,0 +1,20 @@
+﻿<Window x:Class="BionicleHeroesBingoGUI.Views.ConfirmBoardCreation"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:BionicleHeroesBingoGUI.Views"
+        mc:Ignorable="d"
+        Title="" Height="172" Width="346" Topmost="True" WindowStyle="None" WindowStartupLocation="CenterScreen">
+    <Grid Margin="0,0,0,1">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="90*"/>
+            <ColumnDefinition Width="224*"/>
+            <ColumnDefinition Width="7*"/>
+        </Grid.ColumnDefinitions>
+        <TextBlock Margin="44,0,0,109" TextWrapping="Wrap" Text="Are you sure you want to generate a new board?" VerticalAlignment="Bottom" Grid.ColumnSpan="2" HorizontalAlignment="Left" Width="258"/>
+        <Button x:Name="ConfirmBtn" Content="Yes, new one" HorizontalAlignment="Right" Margin="0,0,197,13" Grid.ColumnSpan="2" Width="72" Height="20" VerticalAlignment="Bottom" />
+        <Button x:Name="DenyBtn" Grid.Column="1" Content="No, Go Back!" Margin="106,0,0,13" Height="20" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="90" Click="DenyBtn_Click"/>
+
+    </Grid>
+</Window>
