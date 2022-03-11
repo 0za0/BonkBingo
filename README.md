@@ -31,3 +31,6 @@ Windows only.
 - Font size cant be changed as of right now
 - Gotta look into the seeds and if they are reliable
 - Gotta Explain what the settings do
+
+# To-Do Programming wise
+- Properly utilize Application.Resources
