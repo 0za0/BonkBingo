@@ -93,10 +93,15 @@ namespace BionicleHeroesBingoGUI
 
 
         }
-
         private void RegenSeedButtonClicked(object sender, RoutedEventArgs e)
         {
             SeedTextBox.Text = bingoLogic.GenerateSeed().ToString();
+        }
+        private void PopOutBtnClicked(object sender, RoutedEventArgs e)
+        {
+            PopoutGrid pp = new PopoutGrid();
+            
+            pp.Show();
         }
 
         private void Generate(object sender, RoutedEventArgs e)
@@ -129,6 +134,7 @@ namespace BionicleHeroesBingoGUI
 
                 };
 
+                //Store goals here
                 FillButtonText(bingoLogic.GenerateBoard(flags, int.Parse(SeedTextBox.Text)));
 
                 foreach (var item in buttons)
