@@ -42,6 +42,7 @@ namespace BionicleHeroesBingoGUI
         {
             goals.Clear();
             InitLists();
+
             //(bool)Ach1k.IsChecked,
             //    (bool)Hewkii.IsChecked,
             //    (bool)Matoro.IsChecked,
