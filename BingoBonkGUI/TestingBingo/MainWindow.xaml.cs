@@ -22,12 +22,17 @@ namespace BionicleHeroesBingoGUI
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
+    /// 
+
+    //Todo:
+    //Make code cleaner / Add more (meaningful) comments
     public partial class MainWindow : Window
     {
-        BingoLogic bingoLogic = new BingoLogic();
-        List<WrapButton> buttons = new List<WrapButton>();
-        BitmapSource bmpSource;
-
+        private BingoLogic bingoLogic = new BingoLogic();
+        private List<WrapButton> Buttons = new List<WrapButton>();
+        public static BitmapSource? BMPSource = null;
+        private PopoutGrid PopoutGrid = new PopoutGrid();
+        private List<string> CurrentBoard = new List<string>();
 
         public MainWindow()
         {
@@ -37,13 +42,21 @@ namespace BionicleHeroesBingoGUI
             System.Drawing.Image image = System.Drawing.Image.FromFile("Resources/scream.jpg");
             Bitmap bitmap = new System.Drawing.Bitmap(image);
             //Create the Bitmap here so we dont have to always re-do it when a button is clicked
-            bmpSource = Imaging.CreateBitmapSourceFromHBitmap(bitmap.GetHbitmap(),
+            BMPSource = Imaging.CreateBitmapSourceFromHBitmap(bitmap.GetHbitmap(),
                                                                             IntPtr.Zero,
                                                                             Int32Rect.Empty,
                                                                             BitmapSizeOptions.FromEmptyOptions()
             );
             bitmap.Dispose();
         }
+        //Best to not ask why I needed to add this, trust me
+        protected override void OnClosed(EventArgs e)
+        {
+            base.OnClosed(e);
+
+            Application.Current.Shutdown();
+        }
+
         void CreateButtons()
         {
             int count = 0;
@@ -64,7 +77,7 @@ namespace BionicleHeroesBingoGUI
                     butt.IsClicked = false;
 
                     count++;
-                    buttons.Add(butt);
+                    Buttons.Add(butt);
                 }
 
             }
@@ -73,21 +86,21 @@ namespace BionicleHeroesBingoGUI
         {
             WrapButton? wp = sender as WrapButton;
             int buttonIndex = int.Parse(wp.Name.Remove(0, 1));
-            buttons[buttonIndex].IsClicked = !buttons[buttonIndex].IsClicked;//Toggle on off
+            Buttons[buttonIndex].IsClicked = !Buttons[buttonIndex].IsClicked;//Toggle on off
             //Make sure we dont cause a fuckin memory leak lmfao... 
             //OK Fixed, Memory leaks are no more
 
 
-            if (buttons[buttonIndex].IsClicked)
+            if (Buttons[buttonIndex].IsClicked)
             {
                 if ((bool)UseImages.IsChecked)
-                    buttons[buttonIndex].Background = new ImageBrush(bmpSource);
+                    Buttons[buttonIndex].Background = new ImageBrush(BMPSource);
                 else
-                    buttons[buttonIndex].Background = new SolidColorBrush(Colors.LightGreen);
+                    Buttons[buttonIndex].Background = new SolidColorBrush(Colors.LightGreen);
             }
             else
             {
-                buttons[buttonIndex].Background = null;
+                Buttons[buttonIndex].Background = null;
             }
 
 
@@ -99,15 +112,16 @@ namespace BionicleHeroesBingoGUI
         }
         private void PopOutBtnClicked(object sender, RoutedEventArgs e)
         {
-            PopoutGrid pp = new PopoutGrid();
-            
-            pp.Show();
+            PopoutGrid.FillBoard(CurrentBoard);
+            PopoutGrid.Show();
+            PopoutBoardButton.IsEnabled = false;
+            PopoutGrid.Closed+=(obj, e) => { PopoutBoardButton.IsEnabled = true; PopoutGrid = new PopoutGrid(); };
         }
 
         private void Generate(object sender, RoutedEventArgs e)
         {
             bool createNewBoard = false;
-            if (!buttons.Any(x => x.IsClicked == true))
+            if (!Buttons.Any(x => x.IsClicked == true))
             {
                 createNewBoard = true;
             }
@@ -135,9 +149,11 @@ namespace BionicleHeroesBingoGUI
                 };
 
                 //Store goals here
-                FillButtonText(bingoLogic.GenerateBoard(flags, int.Parse(SeedTextBox.Text)));
+                CurrentBoard = bingoLogic.GenerateBoard(flags, int.Parse(SeedTextBox.Text));
+                PopoutGrid.FillBoard(CurrentBoard);
+                FillButtonText(CurrentBoard);
 
-                foreach (var item in buttons)
+                foreach (var item in Buttons)
                 {
                     item.Background = null;
                     item.IsClicked = false;
@@ -147,7 +163,7 @@ namespace BionicleHeroesBingoGUI
         void FillButtonText(List<string> bingoboard)
         {
             for (int i = 0; i < bingoboard.Count; i++)
-                buttons[i].Text = bingoboard[i];
+                Buttons[i].Text = bingoboard[i];
         }
 
         private void HelpMenu(object sender, RoutedEventArgs e)
@@ -160,6 +176,11 @@ namespace BionicleHeroesBingoGUI
         {
             AboutMenu a = new AboutMenu();
             a.Show();
+        }
+
+        private void UseImages_Checked(object sender, RoutedEventArgs e)
+        {
+            PopoutGrid.UseImages = !PopoutGrid.UseImages;
         }
     }
 }

@@ -16,7 +16,7 @@
             <MenuItem Header="About" Click="AboutMenu">
             </MenuItem>
         </Menu>
-        <Grid Background="#FFDA9090" ShowGridLines="True" x:Name="MainGrid" Margin="259,17,141,17"  >
+        <Grid Background="#FFDA9090" ShowGridLines="True" x:Name="MainGrid" Margin="259,17,141,17" Visibility="Visible"  >
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
                 <ColumnDefinition/>
@@ -55,7 +55,7 @@
             <CheckBox x:Name="Shop" Content="Shop" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="127"/>
             <CheckBox x:Name="Shop2" Content="Locator" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="127"/>
             <CheckBox x:Name="Playground" Content="Piraka Playground" HorizontalAlignment="Left"  VerticalAlignment="Top"/>
-            <CheckBox x:Name="UseImages" Content="Use Images for Bingo" HorizontalAlignment="Left"  VerticalAlignment="Top"/>
+            <CheckBox x:Name="UseImages" Content="Use Images for Bingo" HorizontalAlignment="Left"  VerticalAlignment="Top" Checked="UseImages_Checked"/>
 
             <TextBox HorizontalAlignment="Left"  TextWrapping="Wrap" Text="Vahki Level 1-3" VerticalAlignment="Top" Width="120"/>
             <StackPanel Orientation="Horizontal" VerticalAlignment="Stretch" HorizontalAlignment="Left">
@@ -68,7 +68,7 @@
                 <Button Click="RegenSeedButtonClicked">Regen Seed</Button>
             </StackPanel>
             <Button Content="Generate New Board"  Click="Generate"  VerticalAlignment="Top" HorizontalAlignment="Left"  />
-            <Button Content="Popout Board"  Click="PopOutBtnClicked"  VerticalAlignment="Top" HorizontalAlignment="Left"  />
+            <Button x:Name="PopoutBoardButton" Content="Popout Board"  Click="PopOutBtnClicked"  VerticalAlignment="Top" HorizontalAlignment="Left"  />
 
         </StackPanel>
        
