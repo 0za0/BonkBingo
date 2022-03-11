@@ -23,7 +23,7 @@ namespace BionicleHeroesBingoGUI
         List<string> shop2 = new List<string> { "Purchase the Canister Locator" };
         List<string> playground_objects = new List<string> { "Seesaw", "Pedalo", "Windsurfer", "Shooting gallery", "Sand Castles", "Sun Lounger", "Bucking Bronco", "Fitness Equipment", "Dance Floor", "DJ Booth", "VIP Lounge", "Diving Board" };
         List<string> playground = new List<string> { "Seesaw (Piraka Playground)", "Pedalo (Piraka Playground)", "Windsurfer (Piraka Playground)", "Shooting gallery (Piraka Playground)", "Sand Castles (Piraka Playground)", "Sun Lounger (Piraka Playground)", "Bucking Bronco (Piraka Playground)", "Fitness Equipment (Piraka Playground)", "Dance Floor (Piraka Playground)", "DJ Booth (Piraka Playground)", "VIP Lounge (Piraka Playground)", "Diving Board (Piraka Playground)" };
-
+      
 
         static Random rnd = new Random();
         public int Seed { get; private set; }
@@ -38,12 +38,10 @@ namespace BionicleHeroesBingoGUI
             rnd = new Random(Seed);
             return rnd.Next(Math.Abs(Guid.NewGuid().GetHashCode()));
         }
-        public BingoLogic()
+        public List<string> GenerateBoard(bool[] settings, int seed,int mvahki)
         {
+            goals.Clear();
             InitLists();
-        }
-        public List<string> GenerateBoard(bool[] settings, int seed)
-        {
             //(bool)Ach1k.IsChecked,
             //    (bool)Hewkii.IsChecked,
             //    (bool)Matoro.IsChecked,
@@ -59,6 +57,10 @@ namespace BionicleHeroesBingoGUI
             else
                 Seed = seed;
 
+            if (mvahki > 0 )
+            {
+                goals.AddRange(vahki.Take(mvahki));
+            }
             if (settings[0])
                 goals.AddRange(ach1k);
             if (settings[1])

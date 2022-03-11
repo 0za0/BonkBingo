@@ -57,7 +57,7 @@
             <CheckBox x:Name="Playground" Content="Piraka Playground" HorizontalAlignment="Left"  VerticalAlignment="Top"/>
             <CheckBox x:Name="UseImages" Content="Use Images for Bingo" HorizontalAlignment="Left"  VerticalAlignment="Top" Checked="UseImages_Checked"/>
 
-            <TextBox HorizontalAlignment="Left"  TextWrapping="Wrap" Text="Vahki Level 1-3" VerticalAlignment="Top" Width="120"/>
+            <TextBox x:Name="VahkiTextBox" HorizontalAlignment="Left"  TextWrapping="Wrap" Text="Vahki Level 1-3" VerticalAlignment="Top" Width="120"/>
             <StackPanel Orientation="Horizontal" VerticalAlignment="Stretch" HorizontalAlignment="Left">
                 <StackPanel.Resources>
                     <Style TargetType="{x:Type Button}">

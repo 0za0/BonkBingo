@@ -36,6 +36,8 @@ namespace BionicleHeroesBingoGUI
 
         public MainWindow()
         {
+            //Very quickly hacked in color configuration
+            ConfigStuff.LoadColorConfig();
 
             InitializeComponent();
             CreateButtons();
@@ -75,6 +77,7 @@ namespace BionicleHeroesBingoGUI
                     butt.Click += Button_Click;
                     MainGrid.Children.Add(butt);
                     butt.IsClicked = false;
+                    butt.Background = ConfigStuff.ButtonDeselectedColor;
 
                     count++;
                     Buttons.Add(butt);
@@ -96,11 +99,11 @@ namespace BionicleHeroesBingoGUI
                 if ((bool)UseImages.IsChecked)
                     Buttons[buttonIndex].Background = new ImageBrush(BMPSource);
                 else
-                    Buttons[buttonIndex].Background = new SolidColorBrush(Colors.LightGreen);
+                    Buttons[buttonIndex].Background = ConfigStuff.ButtonSelectedColor;
             }
             else
             {
-                Buttons[buttonIndex].Background = null;
+                Buttons[buttonIndex].Background = ConfigStuff.ButtonDeselectedColor;
             }
 
 
@@ -115,7 +118,7 @@ namespace BionicleHeroesBingoGUI
             PopoutGrid.FillBoard(CurrentBoard);
             PopoutGrid.Show();
             PopoutBoardButton.IsEnabled = false;
-            PopoutGrid.Closed+=(obj, e) => { PopoutBoardButton.IsEnabled = true; PopoutGrid = new PopoutGrid(); };
+            PopoutGrid.Closed += (obj, e) => { PopoutBoardButton.IsEnabled = true; PopoutGrid = new PopoutGrid(); };
         }
 
         private void Generate(object sender, RoutedEventArgs e)
@@ -149,13 +152,15 @@ namespace BionicleHeroesBingoGUI
                 };
 
                 //Store goals here
-                CurrentBoard = bingoLogic.GenerateBoard(flags, int.Parse(SeedTextBox.Text));
+                int mvahki = 0;
+                int.TryParse(VahkiTextBox.Text, out mvahki);
+                CurrentBoard = bingoLogic.GenerateBoard(flags, int.Parse(SeedTextBox.Text), mvahki);
                 PopoutGrid.FillBoard(CurrentBoard);
                 FillButtonText(CurrentBoard);
 
                 foreach (var item in Buttons)
                 {
-                    item.Background = null;
+                    item.Background = ConfigStuff.ButtonDeselectedColor;
                     item.IsClicked = false;
                 }
             }
