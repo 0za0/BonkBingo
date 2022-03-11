@@ -21,16 +21,16 @@ Windows only.
 - Generate Bingo Boards
 - Images can be used to mark tiles. (Resources/scream.jpg)
 - Pop out the Bingo Board into its seperate window.
-- Change the colors of the tiles.
+- Change the colors of the tiles Font color.
 
 
 # Quirks
 - ~~Duplicate Entries~~ (Fixed, not released yet)
 - Cannot popout board if board hasn't been generated yet.
-- Cannot set font color, which makes setting custom colors a bit restrictive at the moment.
+- ~~Cannot set font color, which makes setting custom colors a bit restrictive at the moment.~~ Implemented.
 - Font size cant be changed as of right now
-- Gotta look into the seeds and if they are reliable
-- Gotta Explain what the settings do
+- ~~Gotta look into the seeds and if they are reliable~~ Yup, fixed it.
+- Gotta Explain what the settings do 
 
 # To-Do Programming wise
 - Properly utilize Application.Resources
