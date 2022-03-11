@@ -6,9 +6,7 @@
         xmlns:local="clr-namespace:BionicleHeroesBingoGUI"
         mc:Ignorable="d"
         Title="Bingo Bango Bongo" Height="500" Width="840" Topmost="True" FontSize="14">
-   
-
-
+    
     <Grid >
         <Menu DockPanel.Dock="Top" >
             <MenuItem Header="Help" Click="HelpMenu">

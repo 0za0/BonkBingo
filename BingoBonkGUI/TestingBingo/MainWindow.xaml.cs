@@ -37,7 +37,7 @@ namespace BionicleHeroesBingoGUI
         public MainWindow()
         {
             //Very quickly hacked in color configuration
-            ConfigStuff.LoadColorConfig();
+            Configuration.LoadColorConfig();
 
             InitializeComponent();
             CreateButtons();
@@ -58,7 +58,6 @@ namespace BionicleHeroesBingoGUI
 
             Application.Current.Shutdown();
         }
-
         void CreateButtons()
         {
             int count = 0;
@@ -71,14 +70,13 @@ namespace BionicleHeroesBingoGUI
 
                     butt.Text = count.ToString();
                     butt.Name = $"B{count}";
-
                     Grid.SetColumn(butt, j);
                     Grid.SetRow(butt, i);
                     butt.Click += Button_Click;
                     MainGrid.Children.Add(butt);
                     butt.IsClicked = false;
-                    butt.Background = ConfigStuff.ButtonDeselectedColor;
-
+                    butt.Background = Configuration.ButtonDeselectedColor;
+                    butt.Foreground = Configuration.ButtonFontColor;
                     count++;
                     Buttons.Add(butt);
                 }
@@ -99,11 +97,11 @@ namespace BionicleHeroesBingoGUI
                 if ((bool)UseImages.IsChecked)
                     Buttons[buttonIndex].Background = new ImageBrush(BMPSource);
                 else
-                    Buttons[buttonIndex].Background = ConfigStuff.ButtonSelectedColor;
+                    Buttons[buttonIndex].Background = Configuration.ButtonSelectedColor;
             }
             else
             {
-                Buttons[buttonIndex].Background = ConfigStuff.ButtonDeselectedColor;
+                Buttons[buttonIndex].Background = Configuration.ButtonDeselectedColor;
             }
 
 
@@ -120,7 +118,6 @@ namespace BionicleHeroesBingoGUI
             PopoutBoardButton.IsEnabled = false;
             PopoutGrid.Closed += (obj, e) => { PopoutBoardButton.IsEnabled = true; PopoutGrid = new PopoutGrid(); };
         }
-
         private void Generate(object sender, RoutedEventArgs e)
         {
             bool createNewBoard = false;
@@ -160,7 +157,7 @@ namespace BionicleHeroesBingoGUI
 
                 foreach (var item in Buttons)
                 {
-                    item.Background = ConfigStuff.ButtonDeselectedColor;
+                    item.Background = Configuration.ButtonDeselectedColor;
                     item.IsClicked = false;
                 }
             }
@@ -170,19 +167,16 @@ namespace BionicleHeroesBingoGUI
             for (int i = 0; i < bingoboard.Count; i++)
                 Buttons[i].Text = bingoboard[i];
         }
-
         private void HelpMenu(object sender, RoutedEventArgs e)
         {
             HelpMenu h = new HelpMenu();
             h.Show();
         }
-
         private void AboutMenu(object sender, RoutedEventArgs e)
         {
             AboutMenu a = new AboutMenu();
             a.Show();
         }
-
         private void UseImages_Checked(object sender, RoutedEventArgs e)
         {
             PopoutGrid.UseImages = !PopoutGrid.UseImages;

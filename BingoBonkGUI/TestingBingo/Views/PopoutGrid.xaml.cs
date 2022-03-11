@@ -47,7 +47,7 @@ namespace BionicleHeroesBingoGUI.Views
                     butt.Click += Button_Click;
                     MainGrid.Children.Add(butt);
                     butt.IsClicked = false;
-
+                    butt.Foreground = Configuration.ButtonFontColor;
                     count++;
                     Buttons.Add(butt);
                 }
@@ -68,11 +68,11 @@ namespace BionicleHeroesBingoGUI.Views
                 if (UseImages)
                     Buttons[buttonIndex].Background = new ImageBrush(MainWindow.BMPSource);
                 else
-                    Buttons[buttonIndex].Background = ConfigStuff.ButtonSelectedColor;
+                    Buttons[buttonIndex].Background = Configuration.ButtonSelectedColor;
             }
             else
             {
-                Buttons[buttonIndex].Background = ConfigStuff.ButtonDeselectedColor;
+                Buttons[buttonIndex].Background = Configuration.ButtonDeselectedColor;
             }
 
 
@@ -82,7 +82,7 @@ namespace BionicleHeroesBingoGUI.Views
         {
             for (int i = 0; i < 25; i++)
             {
-                Buttons[i].Background = ConfigStuff.ButtonDeselectedColor; 
+                Buttons[i].Background = Configuration.ButtonDeselectedColor; 
                 Buttons[i].Text = board[i];
             }
         }
