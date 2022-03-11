@@ -35,3 +35,4 @@ Windows only.
 # To-Do Programming wise
 - Properly utilize Application.Resources
 - Don't just wing the stuff, maybe plan it.
+- Maybe re-do Randomization
