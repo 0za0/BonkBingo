@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BionicleHeroesBingoGUI.Views"
         mc:Ignorable="d"
-        Title="PopoutGrid" Height="450" Width="450" Topmost="True" FontSize="15" WindowStyle="ToolWindow">
+        Title="PopoutGrid" Height="450" Width="450" Topmost="True" FontSize="15">
     <Grid>
         <Grid Background="#FFDA9090" ShowGridLines="True" x:Name="MainGrid"  >
             <Grid.ColumnDefinitions>
