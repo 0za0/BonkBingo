@@ -80,10 +80,15 @@ namespace BionicleHeroesBingoGUI.Views
         }
         public void FillBoard(List<string> board)
         {
-            for (int i = 0; i < 25; i++)
-            {
-                Buttons[i].Background = Configuration.ButtonDeselectedColor; 
-                Buttons[i].Text = board[i];
+            //This is what you call ((((Exception Handling)))) 
+            if (board.Any())
+            { 
+                for (int i = 0; i < 25; i++)
+                {
+                    Buttons[i].Background = Configuration.ButtonDeselectedColor;
+                    Buttons[i].Foreground= Configuration.ButtonFontColor;
+                    Buttons[i].Text = board[i];
+                }
             }
         }
     }
