@@ -1,22 +1,26 @@
 name: "Deploy Bionicle GUI"
 
+
 on:
-	push:
-	 tags:
-		-"bonk-gui/v*"
+  push:
+    tags:
+      - "bonk-gui/v*"
 
 env:
-	PROJECT_PATH: BingoBonkGUI/TestingBingo/BionicleHeroesBingoGUI.csproj
-
+  PROJECT_PATH: BingoBonkGUI/TestingBingo/BionicleHeroesBingoGUI.csproj
 
 jobs:
- deploy:
-  runs-on: windows-latest
-  steps:
-	-uses: actions/checkout@v2
-	-uses: actions/setup-dotnet@v1
-	with:
-		-dotnet-version: 5.0.x
-	- run: dotnet restore ${{env.PROJECT_PATH}}
-	- run: dotnet build ${{env.PROJECT_PATH}} -c Release --no-restore
-	- run: dotnet publish ${{env.PROJECT_PATH}} -c Release --self-contained --runtime win-x64 -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true
+  deploy:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: 5.x.x
+
+      - run: dotnet restore ${{ env.PROJECT_PATH }}
+
+      - run: dotnet build ${{ env.PROJECT_PATH }} -c Release --no-restore
+
+      - run: dotnet publish ${{ env.PROJECT_PATH }} -c Release --self-contained -r win-x64 -p:PublishSingleFile=true --no-build p:IncludeNativeLibrariesForSelfExtract=true
