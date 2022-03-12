@@ -8,6 +8,7 @@
 		<ApplicationIcon>scream_D7W_icon.ico</ApplicationIcon>
 		<SignAssembly>False</SignAssembly>
 		<RuntimeIdentifier>win-x64</RuntimeIdentifier>
+		<UseWindowsForms>True</UseWindowsForms>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">

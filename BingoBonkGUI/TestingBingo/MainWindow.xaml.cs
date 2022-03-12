@@ -3,18 +3,13 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
+using System.Windows.Forms;
 using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+
 
 
 namespace BionicleHeroesBingoGUI
@@ -33,7 +28,7 @@ namespace BionicleHeroesBingoGUI
         public static BitmapSource? BMPSource = null;
         private PopoutGrid PopoutGrid = new PopoutGrid();
         private List<string> CurrentBoard = new List<string>();
-
+        ColorDialog cl = new ColorDialog();
         public MainWindow()
         {
             //Very quickly hacked in color configuration
@@ -56,7 +51,7 @@ namespace BionicleHeroesBingoGUI
         {
             base.OnClosed(e);
 
-            Application.Current.Shutdown();
+            System.Windows.Application.Current.Shutdown();
         }
         void CreateButtons()
         {
@@ -94,14 +89,23 @@ namespace BionicleHeroesBingoGUI
 
             if (Buttons[buttonIndex].IsClicked)
             {
-                if ((bool)UseImages.IsChecked)
+                //To avoid the warning I do ==true
+                if (UseImages.IsChecked == true)
+                {
                     Buttons[buttonIndex].Background = new ImageBrush(BMPSource);
+                    if (HideText.IsChecked == true)
+                    {
+                        Buttons[buttonIndex].Foreground = Configuration.ButtonInvisibleFont;
+                    }
+                }
+
                 else
                     Buttons[buttonIndex].Background = Configuration.ButtonSelectedColor;
             }
             else
             {
                 Buttons[buttonIndex].Background = Configuration.ButtonDeselectedColor;
+                Buttons[buttonIndex].Foreground = Configuration.ButtonFontColor;
             }
 
 
@@ -180,6 +184,31 @@ namespace BionicleHeroesBingoGUI
         private void UseImages_Checked(object sender, RoutedEventArgs e)
         {
             PopoutGrid.UseImages = !PopoutGrid.UseImages;
+        }
+
+        private void HideText_Checked(object sender, RoutedEventArgs e)
+        {
+            if (UseImages.IsChecked == true && HideText.IsChecked == true)
+            {
+                foreach (var item in Buttons.Where(btn => btn.IsClicked))
+                {
+                    item.Foreground = Configuration.ButtonInvisibleFont;
+                }
+            }
+        }
+
+        private void HideText_Unchecked(object sender, RoutedEventArgs e)
+        {
+            foreach (var item in Buttons.Where(btn => btn.IsClicked))
+            {
+                item.Foreground = Configuration.ButtonFontColor;
+            }
+        }
+
+        private void SettingsMenu(object sender, RoutedEventArgs e)
+        {
+            ColorSettings s = new ColorSettings();
+            s.Show();
         }
     }
 }
