@@ -8,7 +8,7 @@ A Bingo Board Generator for Bionicle Heroes
 ~~You need [.NET 5](https://dotnet.microsoft.com/en-us/download/dotnet/5.0)~~
 
 
-The app was packaged into 1 executable including dependencies and runtime.
+The app was packaged into 1 executable including dependencies and runtime (thats why its so huge).
 
 
 Just download the and run the .exe
@@ -25,8 +25,8 @@ Windows only.
 
 
 # Quirks
-- ~~Duplicate Entries~~ (Fixed, not released yet)
-- Cannot popout board if board hasn't been generated yet.
+- ~~Duplicate Entries~~ (Fixed)
+- ~~Cannot popout board if board hasn't been generated yet.~~ (Fixed)
 - ~~Cannot set font color, which makes setting custom colors a bit restrictive at the moment.~~ Implemented.
 - Font size cant be changed as of right now
 - ~~Gotta look into the seeds and if they are reliable~~ Yup, fixed it.
