@@ -41,3 +41,4 @@ Windows only.
 - Don't just wing the stuff, maybe plan it
 - Maybe re-do Randomization
 - Just clean up the code a whole lot (Right now its on a "It works" basis) 
+- Add a dark mode so people can keep using their eyes 
