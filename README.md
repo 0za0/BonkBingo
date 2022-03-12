@@ -21,7 +21,7 @@ Windows only.
 - Generate Bingo Boards
 - Images can be used to mark tiles. (Resources/scream.jpg)
 - Pop out the Bingo Board into its seperate window.
-- Change the colors of the tiles Font color.
+- Change the colors of the tiles and Font.
 
 
 # Quirks
@@ -36,3 +36,4 @@ Windows only.
 - Properly utilize Application.Resources / Bindings / Other proper practices where I was too cheap to implement them properly
 - Don't just wing the stuff, maybe plan it
 - Maybe re-do Randomization
+- Just clean up the code a whole lot (Right now its on a "It works" basis) 
