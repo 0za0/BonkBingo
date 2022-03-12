@@ -42,3 +42,4 @@ Windows only.
 - Maybe re-do Randomization
 - Just clean up the code a whole lot (Right now its on a "It works" basis) 
 - Add a dark mode so people can keep using their eyes 
+- Fix GitHub Workflow .yml so it zips up the program and creates a release automatically
