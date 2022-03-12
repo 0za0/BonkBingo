@@ -2,7 +2,11 @@
 A Bingo Board Generator for Bionicle Heroes
 
 
-**Original Script by Nordki**
+
+**Original Script by Nordki/Ondrik**
+
+# Feedback / Bugs
+Just hit me up on Discord or create an issue, I'll try my best.
 
 # How to use
 ~~You need [.NET 5](https://dotnet.microsoft.com/en-us/download/dotnet/5.0)~~
