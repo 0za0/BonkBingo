@@ -33,6 +33,6 @@ Windows only.
 - Gotta Explain what the settings do 
 
 # To-Do Programming wise
-- Properly utilize Application.Resources
-- Don't just wing the stuff, maybe plan it.
+- Properly utilize Application.Resources / Bindings / Other proper practices where I was too cheap to implement them properly
+- Don't just wing the stuff, maybe plan it
 - Maybe re-do Randomization
