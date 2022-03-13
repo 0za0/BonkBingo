@@ -5,11 +5,10 @@ using System.Drawing;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Forms;
 using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using CheckBox = System.Windows.Controls.CheckBox;
+
 
 namespace BionicleHeroesBingoGUI
 {
@@ -27,8 +26,10 @@ namespace BionicleHeroesBingoGUI
         public static BitmapSource? BMPSource = null;
         private PopoutGrid PopoutGrid = new PopoutGrid();
         private List<string> CurrentBoard = new List<string>();
-        private List<CheckBox> flags = new List<CheckBox>();
 
+        //I really wish I had more than 5 IQ 
+        private List<CheckBox> flags = new List<CheckBox>();
+        private List<TextBox> valueFlags = new List<TextBox>();
 
         public MainWindow()
         {
@@ -40,23 +41,27 @@ namespace BionicleHeroesBingoGUI
             System.Drawing.Image image = System.Drawing.Image.FromFile("Resources/scream.jpg");
             Bitmap bitmap = new System.Drawing.Bitmap(image);
             //Create the Bitmap here so we dont have to always re-do it when a button is clicked
-            BMPSource = Imaging.CreateBitmapSourceFromHBitmap(bitmap.GetHbitmap(),
-                                                                            IntPtr.Zero,
-                                                                            Int32Rect.Empty,
-                                                                            BitmapSizeOptions.FromEmptyOptions()
-            );
+            BMPSource = Imaging.CreateBitmapSourceFromHBitmap(bitmap.GetHbitmap(), IntPtr.Zero, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
             bitmap.Dispose();
             foreach (var item in bingoLogic.GenerateControlsNeeded())
             {
-                flags.Add((CheckBox)item);
-                FlagsStack.Children.Add(item);
+                //Number flags get added here
+                if (item.GetType() == typeof(TextBox))
+                {
+                    FlagsStack.Children.Add(item);
+                    valueFlags.Add((TextBox)item);
+                }
+                else
+                {
+                    flags.Add((CheckBox)item);
+                    FlagsStack.Children.Add(item);
+                }
             }
         }
         //Best to not ask why I needed to add this, trust me
         protected override void OnClosed(EventArgs e)
         {
             base.OnClosed(e);
-
             System.Windows.Application.Current.Shutdown();
         }
         void CreateButtons()
@@ -132,9 +137,8 @@ namespace BionicleHeroesBingoGUI
         {
             bool createNewBoard = false;
             if (!Buttons.Any(x => x.IsClicked == true))
-            {
                 createNewBoard = true;
-            }
+
             else
             {
                 ConfirmBoardCreation c = new ConfirmBoardCreation();
@@ -145,11 +149,11 @@ namespace BionicleHeroesBingoGUI
 
             if (createNewBoard)
             {
+                //Cursed
                 List<bool?> flagsInOrder = flags.Select(x => x.IsChecked).ToList();
+                List<string> flagsValue = valueFlags.Select(x=>x.Text).ToList();
 
-
-                //int.TryParse(VahkiTextBox.Text, out mvahki);
-                CurrentBoard = bingoLogic.GenerateBoard(flagsInOrder, int.Parse(SeedTextBox.Text));
+                CurrentBoard = bingoLogic.GenerateBoard(flagsInOrder, int.Parse(SeedTextBox.Text), flagsValue);
                 PopoutGrid.FillBoard(CurrentBoard);
                 FillButtonText(CurrentBoard);
 

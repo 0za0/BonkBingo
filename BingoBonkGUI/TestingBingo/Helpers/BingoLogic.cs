@@ -49,13 +49,24 @@ namespace BionicleHeroesBingoGUI
 
             foreach (var item in BoardParser.boardConfigItems.Skip(1).ToList())//We can always skip 1 because its the [DEFAULT]
             {
-                CheckBox cb = new CheckBox();
-                cb.Content = item.Name;
-                controls.Add(cb);
+                if (item.IsValue)
+                {
+                    TextBox textBox = new TextBox();
+                    textBox.Text = $"{item.Name}";
+                    //Figure this out pls
+                    textBox.Width = Double.NaN;
+                    controls.Add(textBox);
+                }
+                else
+                {
+                    CheckBox cb = new CheckBox();
+                    cb.Content = item.Name;
+                    controls.Add(cb);
+                }
             }
             return controls;
         }
-        public List<string> GenerateBoard(List<bool?> settings, int seed)
+        public List<string> GenerateBoard(List<bool?> settings, int seed, List<string> valueFlags)
         {
             goals.Clear();
             if (seed == -1)
@@ -63,63 +74,41 @@ namespace BionicleHeroesBingoGUI
             else
                 Seed = seed;
 
-
             rnd = new Random(Seed);
             InitLists();
-
-            //if (mvahki > 0 )
-            //{
-            //    goals.AddRange(vahki.Take(mvahki));
-            //}
-            //if (settings[0])
-            //    goals.AddRange(ach1k);
-            //if (settings[1])
-            //    goals.AddRange(hewkii);
-            //if (settings[2])
-            //    goals.AddRange(matoro);
-            //if (settings[3])
-            //    goals.AddRange(canisters);
-            //if (settings[4])
-            //{
-            //    goals.AddRange(golds);
-            //    goals.AddRange(silvers);
-            //}
-            //if (settings[5])
-            //    goals.AddRange(shop);
-            //if (settings[6])
-            //    goals.AddRange(shop2);
-            //if (settings[7])
-            //    goals.AddRange(playground);
-            //goals.Clear();
             goals.AddRange(BoardParser.boardConfigItems[0].BoardItems);
             for (int i = 0; i < settings.Count; i++)
             {
                 if (settings[i] == true)
                 {
-                    if (BoardParser.boardConfigItems[i+1].RequiresInit)
-                    {
-                        goals.AddRange(BoardParser.boardConfigItems[i+1].ActualValues);
-                    }
+                    if (BoardParser.boardConfigItems[i + 1].RequiresInit)
+                        goals.AddRange(BoardParser.boardConfigItems[i + 1].ActualValues);
                     else
-                    {
-                        goals.AddRange(BoardParser.boardConfigItems[i+1].BoardItems);
-                    }
+                        goals.AddRange(BoardParser.boardConfigItems[i + 1].BoardItems);
                 }
             }
-
-
-
+            
+            //Get which flags are values
+            List<BoardConfigItem> onlyValues = BoardParser.boardConfigItems.Where(x => x.IsValue).ToList();
+            for (int i = 0; i < onlyValues.Count(); i++)
+            {
+                int val = 0;
+                // getting the currentItem
+                BoardConfigItem currentItem = onlyValues[i];
+                //Check if we can get a value out
+                int.TryParse(valueFlags[i],out val);
+                //Take as many goals as stated in the textbox
+                goals.AddRange(currentItem.BoardItems.Take(val));
+            }
             List<string> board = goals.OrderBy(x => rnd.Next(0, 1000)).Take(25).ToList();
-            board[12] = "Play Piraka Bluff";
+            board[12] = "Play Piraka Bluff"; //TODO: Define this in the file
             return board;
         }
         private void InitLists()
         {
             //Clear them otherwise we get dupes
             foreach (var item in BoardParser.boardConfigItems.Where(x => x.RequiresInit))
-            {
                 item.ActualValues.Clear();
-            }
 
             //Initialize all the bois that need initialization :)
             foreach (var AllBoardItems in BoardParser.boardConfigItems.Where(x => x.RequiresInit))
@@ -138,25 +127,10 @@ namespace BionicleHeroesBingoGUI
                     minRand = int.Parse(randomRange.Split(",")[0]);
                     maxRand = int.Parse(randomRange.Split(",")[1]);
 
-
-                    //Putting in the random Numba
-                    
+                    //Putting in the random Number       
                     AllBoardItems.ActualValues.Add(IndividualItem.Insert(startIndex, $"{rnd.Next(minRand, maxRand)}"));
                 }
             }
-
-
-            //canisters.Clear();
-            //golds.Clear();
-            //silvers.Clear();
-            //foreach (var name in piraka_names)
-            //{
-            //    canisters.Add($"Collect {rnd.Next(2, 6)} canisters in {name}");
-            //    silvers.Add($"Collect {rnd.Next(2, 4)} silver canisters in {name}");
-            //    int goldCans = rnd.Next(1, 3);
-            //    string cans = goldCans == 2 ? "canisters" : "canister";
-            //    golds.Add($"Collect {goldCans} gold {cans} in {name}");
-            //}
         }
     }
 }

@@ -11,7 +11,7 @@
         <Menu DockPanel.Dock="Top" >
             <MenuItem Header="Help" Click="HelpMenu">
             </MenuItem>
-            
+
             <MenuItem Header="Settings" Click="SettingsMenu">
             </MenuItem>
 
@@ -34,7 +34,7 @@
                 <RowDefinition/>
             </Grid.RowDefinitions>
         </Grid>
-        <StackPanel x:Name="FlagsStack" Margin="25,30,0,29" Width="247" HorizontalAlignment="Left">
+        <StackPanel x:Name="FlagsStack" Margin="25,30,0,29" Width="216" HorizontalAlignment="Left">
             <StackPanel.Resources>
                 <Style TargetType="{x:Type CheckBox}">
                     <Setter Property="Margin" Value="0,10,0,0"/>
@@ -49,7 +49,7 @@
                     <Setter Property="Margin" Value="0,10,0,0"/>
                 </Style>
             </StackPanel.Resources>
-          <!--  <CheckBox x:Name="Ach1k" Content="Include 1k enemy kills" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+            <!--  <CheckBox x:Name="Ach1k" Content="Include 1k enemy kills" HorizontalAlignment="Left" VerticalAlignment="Top"/>
             <CheckBox x:Name="Hewkii" Content="Hewkii" HorizontalAlignment="Left"  VerticalAlignment="Top"/>
             <CheckBox x:Name="Matoro" Content="Matoro" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="127"/>
             <CheckBox x:Name="Canisters" Content="Canisters" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="127"/>
