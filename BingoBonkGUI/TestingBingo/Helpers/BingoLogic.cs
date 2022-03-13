@@ -1,13 +1,17 @@
-﻿using System;
+﻿using BionicleHeroesBingoGUI.Helpers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Text.RegularExpressions;
+using System.Windows;
+using System.Windows.Controls;
 
 namespace BionicleHeroesBingoGUI
 {
     internal class BingoLogic
     {
+
+
 
         List<string> piraka_names = new List<string> { "Vezok", "Reidak", "Thok", "Avak", "Hakann", "Zaktan" };
         List<string> levels = new List<string> { "Complete Smugglers Cove", "Complete Shattered Wreck", "Complete Vezok's Deluge", "Complete Desert Outpost", "Complete Bleak Refinery", "Complete Ancient Citadel", "Complete Reidak's Bastion", "Complete Flooded Lowlands", "Complete Mountain Path", "Complete Blizzard Peaks", "Complete Thok's Grotto", "Complete Decrepit Dungeons", "Complete Cleansing Plant", "Complete Menacing Keep", "Complete Avak's Dynamo", "Complete Scorched Earth", "Complete Volcanic Trail", "Complete Fiery Mine", "Complete Hakann's Pit", "Complete Logging Post", "Complete Ancient Forest", "Complete Forgotten Shrine", "Complete Zaktan's Chamber", "Complete Vezon's Awakening" };
@@ -22,7 +26,7 @@ namespace BionicleHeroesBingoGUI
         List<string> shop = new List<string> { "Acquire Nuparu's elemental ability", "Acquire Hahli's elemental ability", "Acquire Hewkii's elemental ability", "Acquire Matoro's elemental ability", "Acquire Kongu's elemental ability", "Acquire Jaller's elemental ability", "Upgrade Nuparu's weapon to Tier 2", "Upgrade Hahli's weapon to Tier 2", "Upgrade Hewkii's weapon to Tier 2", "Upgrade Matoro's weapon to Tier 2", "Upgrade Kongu's weapon to Tier 2", "Upgrade Jaller's weapon to Tier 2", "Upgrade Nuparu's weapon to Tier 3", "Upgrade Hahli's weapon to Tier 3", "Upgrade Hewkii's weapon to Tier 3", "Upgrade Matoro's weapon to Tier 3", "Upgrade Kongu's weapon to Tier 3", "Upgrade Jaller's weapon to Tier 3", "Fully upgrade Nuparu's health", "Fully upgrade Hahli's health", "Fully upgrade Hewkii's health", "Fully upgrade Matoro's health", "Fully upgrade Kongu's health", "Fully upgrade Jaller's health", "Purchase the 50% discount" };
         List<string> shop2 = new List<string> { "Purchase the Canister Locator" };
         List<string> playground = new List<string> { "Seesaw (Piraka Playground)", "Pedalo (Piraka Playground)", "Windsurfer (Piraka Playground)", "Shooting gallery (Piraka Playground)", "Sand Castles (Piraka Playground)", "Sun Lounger (Piraka Playground)", "Bucking Bronco (Piraka Playground)", "Fitness Equipment (Piraka Playground)", "Dance Floor (Piraka Playground)", "DJ Booth (Piraka Playground)", "VIP Lounge (Piraka Playground)", "Diving Board (Piraka Playground)" };
-      
+
 
         private Random rnd = new Random();
         public int Seed { get; private set; }
@@ -37,64 +41,122 @@ namespace BionicleHeroesBingoGUI
             rnd = new Random(Seed);
             return rnd.Next(Math.Abs(Guid.NewGuid().GetHashCode()));
         }
-       
-        public List<string> GenerateBoard(bool[] settings, int seed,int mvahki)
+
+        public List<Control> GenerateControlsNeeded()
+        {
+            BoardParser.Parse("board.kongu");
+            List<Control> controls = new List<Control>();
+
+            foreach (var item in BoardParser.boardConfigItems.Skip(1).ToList())//We can always skip 1 because its the [DEFAULT]
+            {
+                CheckBox cb = new CheckBox();
+                cb.Content = item.Name;
+                controls.Add(cb);
+            }
+            return controls;
+        }
+        public List<string> GenerateBoard(List<bool?> settings, int seed)
         {
             goals.Clear();
             if (seed == -1)
                 GenerateSeed();
             else
                 Seed = seed;
-            
+
 
             rnd = new Random(Seed);
             InitLists();
 
-            if (mvahki > 0 )
+            //if (mvahki > 0 )
+            //{
+            //    goals.AddRange(vahki.Take(mvahki));
+            //}
+            //if (settings[0])
+            //    goals.AddRange(ach1k);
+            //if (settings[1])
+            //    goals.AddRange(hewkii);
+            //if (settings[2])
+            //    goals.AddRange(matoro);
+            //if (settings[3])
+            //    goals.AddRange(canisters);
+            //if (settings[4])
+            //{
+            //    goals.AddRange(golds);
+            //    goals.AddRange(silvers);
+            //}
+            //if (settings[5])
+            //    goals.AddRange(shop);
+            //if (settings[6])
+            //    goals.AddRange(shop2);
+            //if (settings[7])
+            //    goals.AddRange(playground);
+            //goals.Clear();
+            goals.AddRange(BoardParser.boardConfigItems[0].BoardItems);
+            for (int i = 0; i < settings.Count; i++)
             {
-                goals.AddRange(vahki.Take(mvahki));
+                if (settings[i] == true)
+                {
+                    if (BoardParser.boardConfigItems[i+1].RequiresInit)
+                    {
+                        goals.AddRange(BoardParser.boardConfigItems[i+1].ActualValues);
+                    }
+                    else
+                    {
+                        goals.AddRange(BoardParser.boardConfigItems[i+1].BoardItems);
+                    }
+                }
             }
-            if (settings[0])
-                goals.AddRange(ach1k);
-            if (settings[1])
-                goals.AddRange(hewkii);
-            if (settings[2])
-                goals.AddRange(matoro);
-            if (settings[3])
-                goals.AddRange(canisters);
-            if (settings[4])
-            {
-                goals.AddRange(golds);
-                goals.AddRange(silvers);
-            }
-            if (settings[5])
-                goals.AddRange(shop);
-            if (settings[6])
-                goals.AddRange(shop2);
-            if (settings[7])
-                goals.AddRange(playground);
-            
 
-            List<string> board = goals.OrderBy(x => rnd.Next(0,1000)).Take(25).ToList();
+
+
+            List<string> board = goals.OrderBy(x => rnd.Next(0, 1000)).Take(25).ToList();
             board[12] = "Play Piraka Bluff";
             return board;
         }
         private void InitLists()
         {
-            canisters.Clear();
-            golds.Clear();
-            silvers.Clear();
-            foreach (var name in piraka_names)
+            //Clear them otherwise we get dupes
+            foreach (var item in BoardParser.boardConfigItems.Where(x => x.RequiresInit))
             {
-                canisters.Add($"Collect {rnd.Next(2, 6)} canisters in {name}");
-                silvers.Add($"Collect {rnd.Next(2, 4)} silver canisters in {name}");
-                int goldCans = rnd.Next(1, 3);
-                string cans = goldCans == 2 ? "canisters" : "canister";
-                golds.Add($"Collect {goldCans} gold {cans} in {name}");
+                item.ActualValues.Clear();
             }
-            goals.AddRange(levels);
-            goals.AddRange(achievments);
-            goals.AddRange(toakill);
+
+            //Initialize all the bois that need initialization :)
+            foreach (var AllBoardItems in BoardParser.boardConfigItems.Where(x => x.RequiresInit))
+            {
+                for (int i = 0; i < AllBoardItems.BoardItems.Count(); i++)
+                {
+                    string IndividualItem = AllBoardItems.BoardItems[i];
+                    //Figure out where to go and then put in a random number
+                    //Please ignore the mess below, thanks
+                    int startIndex = IndividualItem.IndexOf("{");
+                    int endIndex = IndividualItem.IndexOf("}");
+                    string randomRange = IndividualItem[new Range(startIndex, endIndex)];
+                    IndividualItem = IndividualItem.Remove(startIndex, (endIndex - startIndex + 1));
+                    randomRange = Regex.Replace(randomRange, @"[{}]", "");
+                    int minRand = 0, maxRand = 0;
+                    minRand = int.Parse(randomRange.Split(",")[0]);
+                    maxRand = int.Parse(randomRange.Split(",")[1]);
+
+
+                    //Putting in the random Numba
+                    
+                    AllBoardItems.ActualValues.Add(IndividualItem.Insert(startIndex, $"{rnd.Next(minRand, maxRand)}"));
+                }
+            }
+
+
+            //canisters.Clear();
+            //golds.Clear();
+            //silvers.Clear();
+            //foreach (var name in piraka_names)
+            //{
+            //    canisters.Add($"Collect {rnd.Next(2, 6)} canisters in {name}");
+            //    silvers.Add($"Collect {rnd.Next(2, 4)} silver canisters in {name}");
+            //    int goldCans = rnd.Next(1, 3);
+            //    string cans = goldCans == 2 ? "canisters" : "canister";
+            //    golds.Add($"Collect {goldCans} gold {cans} in {name}");
+            //}
         }
     }
 }

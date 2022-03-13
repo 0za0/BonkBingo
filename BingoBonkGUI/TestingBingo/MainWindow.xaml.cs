@@ -9,8 +9,7 @@ using System.Windows.Forms;
 using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-
-
+using CheckBox = System.Windows.Controls.CheckBox;
 
 namespace BionicleHeroesBingoGUI
 {
@@ -28,7 +27,9 @@ namespace BionicleHeroesBingoGUI
         public static BitmapSource? BMPSource = null;
         private PopoutGrid PopoutGrid = new PopoutGrid();
         private List<string> CurrentBoard = new List<string>();
-        ColorDialog cl = new ColorDialog();
+        private List<CheckBox> flags = new List<CheckBox>();
+
+
         public MainWindow()
         {
             //Very quickly hacked in color configuration
@@ -45,6 +46,11 @@ namespace BionicleHeroesBingoGUI
                                                                             BitmapSizeOptions.FromEmptyOptions()
             );
             bitmap.Dispose();
+            foreach (var item in bingoLogic.GenerateControlsNeeded())
+            {
+                flags.Add((CheckBox)item);
+                FlagsStack.Children.Add(item);
+            }
         }
         //Best to not ask why I needed to add this, trust me
         protected override void OnClosed(EventArgs e)
@@ -139,23 +145,11 @@ namespace BionicleHeroesBingoGUI
 
             if (createNewBoard)
             {
-                bool[] flags = new bool[]
-                {
-                (bool)Ach1k.IsChecked,
-                (bool)Hewkii.IsChecked,
-                (bool)Matoro.IsChecked,
-                (bool)Canisters.IsChecked,
-                (bool)CanisterSubdivision.IsChecked,
-                (bool)Shop.IsChecked,
-                (bool)Shop2.IsChecked,
-                (bool)Playground.IsChecked,
+                List<bool?> flagsInOrder = flags.Select(x => x.IsChecked).ToList();
 
-                };
 
-                //Store goals here
-                int mvahki = 0;
-                int.TryParse(VahkiTextBox.Text, out mvahki);
-                CurrentBoard = bingoLogic.GenerateBoard(flags, int.Parse(SeedTextBox.Text), mvahki);
+                //int.TryParse(VahkiTextBox.Text, out mvahki);
+                CurrentBoard = bingoLogic.GenerateBoard(flagsInOrder, int.Parse(SeedTextBox.Text));
                 PopoutGrid.FillBoard(CurrentBoard);
                 FillButtonText(CurrentBoard);
 
