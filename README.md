@@ -1,5 +1,8 @@
 # BonkBingo
-A Bingo Board Generator for Bionicle Heroes
+A Bingo Board Generator for Bionicle Heroes or any game
+
+
+This version loads the entire board from the board.kongu
 
 
 
@@ -22,7 +25,7 @@ Windows only.
 ![image](https://user-images.githubusercontent.com/43097509/157955219-13a5be59-f1d3-44b0-b56a-40129b9588d2.png)
 
 # Feature List
-- Generate Bingo Boards
+- Generate Bingo Boards (As an Input you can use a file)
 - Images can be used to mark tiles. (Resources/scream.jpg)
 - Pop out the Bingo Board into its seperate window.
 - Change the colors of the tiles and Font.
