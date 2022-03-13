@@ -10,14 +10,14 @@ namespace BionicleHeroesBingoGUI.Helpers
     {
         public string Name { get; set; }
         public List<string> BoardItems { get; set; }
-        public List<string> ActualValues { get; set; } // Oh boy oh fuck
+        public List<string> RuntimeGeneratedValues { get; set; } // Oh boy oh fuck
         public bool IsValue { get; set; }
         public bool RequiresInit { get; set; }
 
         public BoardConfigItem()
         {
             BoardItems = new List<string>();
-            ActualValues = new List<string>();
+            RuntimeGeneratedValues = new List<string>();
         }
     }
 }

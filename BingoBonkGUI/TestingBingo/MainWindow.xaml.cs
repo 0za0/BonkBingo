@@ -145,8 +145,6 @@ namespace BionicleHeroesBingoGUI
                 c.SetYesButtonEvent((obj, ev) => { createNewBoard = true; c.Close(); });
                 c.ShowDialog();
             }
-
-
             if (createNewBoard)
             {
                 //Cursed
@@ -169,7 +167,7 @@ namespace BionicleHeroesBingoGUI
             for (int i = 0; i < bingoboard.Count; i++)
                 Buttons[i].Text = bingoboard[i];
         }
-        private void HelpMenu(object sender, RoutedEventArgs e)
+        private void OpenHelpMenu(object sender, RoutedEventArgs e)
         {
             HelpMenu h = new HelpMenu();
             h.Show();
