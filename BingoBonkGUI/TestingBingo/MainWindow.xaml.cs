@@ -1,7 +1,10 @@
-﻿using BionicleHeroesBingoGUI.Views;
+﻿using BionicleHeroesBingoGUI.Helpers;
+using BionicleHeroesBingoGUI.Views;
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -41,6 +44,7 @@ namespace BionicleHeroesBingoGUI
             System.Drawing.Image image = System.Drawing.Image.FromFile("Resources/scream.jpg");
             Bitmap bitmap = new System.Drawing.Bitmap(image);
             //Create the Bitmap here so we dont have to always re-do it when a button is clicked
+            //Move this to somewhere else
             BMPSource = Imaging.CreateBitmapSourceFromHBitmap(bitmap.GetHbitmap(), IntPtr.Zero, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
             bitmap.Dispose();
             foreach (var item in bingoLogic.GenerateControlsNeeded())
@@ -149,7 +153,7 @@ namespace BionicleHeroesBingoGUI
             {
                 //Cursed
                 List<bool?> flagsInOrder = flags.Select(x => x.IsChecked).ToList();
-                List<string> flagsValue = valueFlags.Select(x=>x.Text).ToList();
+                List<string> flagsValue = valueFlags.Select(x => x.Text).ToList();
 
                 CurrentBoard = bingoLogic.GenerateBoard(flagsInOrder, int.Parse(SeedTextBox.Text), flagsValue);
                 PopoutGrid.FillBoard(CurrentBoard);
@@ -181,7 +185,6 @@ namespace BionicleHeroesBingoGUI
         {
             PopoutGrid.UseImages = !PopoutGrid.UseImages;
         }
-
         private void HideText_Checked(object sender, RoutedEventArgs e)
         {
             if (UseImages.IsChecked == true && HideText.IsChecked == true)
@@ -192,7 +195,6 @@ namespace BionicleHeroesBingoGUI
                 }
             }
         }
-
         private void HideText_Unchecked(object sender, RoutedEventArgs e)
         {
             foreach (var item in Buttons.Where(btn => btn.IsClicked))
@@ -200,11 +202,23 @@ namespace BionicleHeroesBingoGUI
                 item.Foreground = Configuration.ButtonFontColor;
             }
         }
-
         private void SettingsMenu(object sender, RoutedEventArgs e)
         {
             ColorSettings s = new ColorSettings();
             s.Show();
+        }
+        private void OpenBoardFileClick(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "Bingo Boards (.kongu)|*.kongu";
+            openFileDialog.ShowDialog();
+        }
+        private void SaveFileAsPNGClicked(object sender, RoutedEventArgs e)
+        {
+            using (var fileStream = File.Create($"./Saved Boards/{((DateTimeOffset)DateTime.Now).ToUnixTimeSeconds()}--{bingoLogic.Seed}.png"))
+            {
+                ImageHelpers.SaveAsPng(ImageHelpers.GetImage(MainGrid), fileStream);
+            }
         }
     }
 }

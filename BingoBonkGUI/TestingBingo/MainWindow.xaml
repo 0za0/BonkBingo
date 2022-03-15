@@ -10,13 +10,11 @@
     <Grid >
         <Menu DockPanel.Dock="Top" >
             <MenuItem Header="File">
-                <MenuItem Header="_Open Kongu File" />
-                <MenuItem Header="_Save Board as PNG" />
+                <MenuItem Header="_Open Kongu File" Click="OpenBoardFileClick" />
+                <MenuItem Header="_Save Board as PNG" Click="SaveFileAsPNGClicked"/>
             </MenuItem>
-
             <MenuItem Header="Settings" Click="SettingsMenu">
             </MenuItem>
-
             <MenuItem Header="About" Click="AboutMenu">
             </MenuItem>
             <MenuItem Header="Help" Click="OpenHelpMenu">
