@@ -1,0 +1,125 @@
+﻿[Default]
+Complete Smugglers Cove
+Complete Shattered Wreck
+Complete Vezok's Deluge
+Complete Desert Outpost
+Complete Bleak Refinery
+Complete Ancient Citadel
+Complete Reidak's Bastion
+Complete Flooded Lowlands
+Complete Mountain Path
+Complete Blizzard Peaks
+Complete Thok's Grotto
+Complete Decrepit Dungeons
+Complete Cleansing Plant
+Complete Menacing Keep
+Complete Avak's Dynamo
+Complete Scorched Earth
+Complete Volcanic Trail
+Complete Fiery Mine
+Complete Hakann's Pit
+Complete Logging Post
+Complete Ancient Forest
+Complete Forgotten Shrine
+Complete Zaktan's Chamber
+Complete Vezon's Awakening
+Kill 100 Visorak
+Kill 500 Visorak
+Kill 100 Bohrok
+Kill 500 Bohrok
+Kill 100 enemies as Jaller
+Kill 100 enemies as Kongu
+Kill 100 enemies as Hahli
+Kill 250 enemies as Jaller
+Kill 250 enemies as Kongu
+Kill 250 enemies as Hahli
+Kill 50 enemies as Nuparu
+Kill 150 enemies as Nuparu
+
+
+[Canisters;RND]
+Collect {2,6} canisters in Vezok
+Collect {2,6} canisters in Reidak
+Collect {2,6} canisters in Thok
+Collect {2,6} canisters in Avak
+Collect {2,6} canisters in Hakann
+Collect {2,6} canisters in Zaktan
+
+[Canister Subdivide;RND]
+Collect {2,4} gold canister in Vezok
+Collect {2,4} gold canisters in Reidak
+Collect {2,4} gold canister in Thok
+Collect {2,4} gold canisters in Avak
+Collect {2,4} gold canister in Hakann
+Collect {2,4} gold canister in Zaktan
+Collect {2,4} silver canisters in Vezok
+Collect {2,4} silver canisters in Reidak
+Collect {2,4} silver canisters in Thok
+Collect {2,4} silver canisters in Avak
+Collect {2,4} silver canisters in Hakann
+Collect {2,4} silver canisters in Zaktan
+
+[Achieve 1k Kills]
+Kill 1000 Visorak
+Kill 1000 Bohrok
+
+[Vahki;VALUE]
+Kill 50 Vahki
+Kill 250 Vahki
+Kill 500 Vahki
+
+[Matoro]
+Kill 50 enemies as Matoro
+Kill 150 enemies as Matoro
+
+[Hewkii]
+Kill 100 enemies as Hewkii
+Kill 250 enemies as Hewkii
+
+
+[Shop]
+Acquire Nuparu's elemental ability
+Acquire Hahli's elemental ability
+Acquire Hewkii's elemental ability
+Acquire Matoro's elemental ability
+Acquire Kongu's elemental ability
+Acquire Jaller's elemental ability
+Upgrade Nuparu's weapon to Tier 2
+Upgrade Hahli's weapon to Tier 2
+Upgrade Hewkii's weapon to Tier 2
+Upgrade Matoro's weapon to Tier 2
+Upgrade Kongu's weapon to Tier 2
+Upgrade Jaller's weapon to Tier 2
+Upgrade Nuparu's weapon to Tier 3
+Upgrade Hahli's weapon to Tier 3
+Upgrade Hewkii's weapon to Tier 3
+Upgrade Matoro's weapon to Tier 3
+Upgrade Kongu's weapon to Tier 3
+Upgrade Jaller's weapon to Tier 3
+Fully upgrade Nuparu's health
+Fully upgrade Hahli's health
+Fully upgrade Hewkii's health
+Fully upgrade Matoro's health
+Fully upgrade Kongu's health
+Fully upgrade Jaller's health
+Purchase the 50% discount
+
+[Canister Locator]
+Purchase the Canister Locator
+
+[Piraka Playground]
+Seesaw (Piraka Playground)
+Pedalo (Piraka Playground)
+Windsurfer (Piraka Playground)
+Shooting gallery (Piraka Playground)
+Sand Castles (Piraka Playground)
+Sun Lounger (Piraka Playground)
+Bucking Bronco (Piraka Playground)
+Fitness Equipment (Piraka Playground)
+Dance Floor (Piraka Playground)
+DJ Booth (Piraka Playground)
+VIP Lounge (Piraka Playground)
+Diving Board (Piraka Playground)
+
+[Always Fill Middle Square]
+Play Piraka Bluff

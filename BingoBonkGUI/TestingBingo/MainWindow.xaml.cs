@@ -1,15 +1,16 @@
-﻿using BionicleHeroesBingoGUI.Views;
+﻿using BionicleHeroesBingoGUI.Helpers;
+using BionicleHeroesBingoGUI.Views;
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Forms;
 using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-
 
 
 namespace BionicleHeroesBingoGUI
@@ -28,7 +29,11 @@ namespace BionicleHeroesBingoGUI
         public static BitmapSource? BMPSource = null;
         private PopoutGrid PopoutGrid = new PopoutGrid();
         private List<string> CurrentBoard = new List<string>();
-        ColorDialog cl = new ColorDialog();
+
+        //I really wish I had more than 5 IQ 
+        private List<CheckBox> flags = new List<CheckBox>();
+        private List<TextBox> valueFlags = new List<TextBox>();
+
         public MainWindow()
         {
             //Very quickly hacked in color configuration
@@ -39,18 +44,28 @@ namespace BionicleHeroesBingoGUI
             System.Drawing.Image image = System.Drawing.Image.FromFile("Resources/scream.jpg");
             Bitmap bitmap = new System.Drawing.Bitmap(image);
             //Create the Bitmap here so we dont have to always re-do it when a button is clicked
-            BMPSource = Imaging.CreateBitmapSourceFromHBitmap(bitmap.GetHbitmap(),
-                                                                            IntPtr.Zero,
-                                                                            Int32Rect.Empty,
-                                                                            BitmapSizeOptions.FromEmptyOptions()
-            );
+            //Move this to somewhere else
+            BMPSource = Imaging.CreateBitmapSourceFromHBitmap(bitmap.GetHbitmap(), IntPtr.Zero, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
             bitmap.Dispose();
+            foreach (var item in bingoLogic.GenerateControlsNeeded())
+            {
+                //Number flags get added here
+                if (item.GetType() == typeof(TextBox))
+                {
+                    FlagsStack.Children.Add(item);
+                    valueFlags.Add((TextBox)item);
+                }
+                else
+                {
+                    flags.Add((CheckBox)item);
+                    FlagsStack.Children.Add(item);
+                }
+            }
         }
         //Best to not ask why I needed to add this, trust me
         protected override void OnClosed(EventArgs e)
         {
             base.OnClosed(e);
-
             System.Windows.Application.Current.Shutdown();
         }
         void CreateButtons()
@@ -126,36 +141,21 @@ namespace BionicleHeroesBingoGUI
         {
             bool createNewBoard = false;
             if (!Buttons.Any(x => x.IsClicked == true))
-            {
                 createNewBoard = true;
-            }
+
             else
             {
                 ConfirmBoardCreation c = new ConfirmBoardCreation();
                 c.SetYesButtonEvent((obj, ev) => { createNewBoard = true; c.Close(); });
                 c.ShowDialog();
             }
-
-
             if (createNewBoard)
             {
-                bool[] flags = new bool[]
-                {
-                (bool)Ach1k.IsChecked,
-                (bool)Hewkii.IsChecked,
-                (bool)Matoro.IsChecked,
-                (bool)Canisters.IsChecked,
-                (bool)CanisterSubdivision.IsChecked,
-                (bool)Shop.IsChecked,
-                (bool)Shop2.IsChecked,
-                (bool)Playground.IsChecked,
+                //Cursed
+                List<bool?> flagsInOrder = flags.Select(x => x.IsChecked).ToList();
+                List<string> flagsValue = valueFlags.Select(x => x.Text).ToList();
 
-                };
-
-                //Store goals here
-                int mvahki = 0;
-                int.TryParse(VahkiTextBox.Text, out mvahki);
-                CurrentBoard = bingoLogic.GenerateBoard(flags, int.Parse(SeedTextBox.Text), mvahki);
+                CurrentBoard = bingoLogic.GenerateBoard(flagsInOrder, int.Parse(SeedTextBox.Text), flagsValue);
                 PopoutGrid.FillBoard(CurrentBoard);
                 FillButtonText(CurrentBoard);
 
@@ -171,7 +171,7 @@ namespace BionicleHeroesBingoGUI
             for (int i = 0; i < bingoboard.Count; i++)
                 Buttons[i].Text = bingoboard[i];
         }
-        private void HelpMenu(object sender, RoutedEventArgs e)
+        private void OpenHelpMenu(object sender, RoutedEventArgs e)
         {
             HelpMenu h = new HelpMenu();
             h.Show();
@@ -185,7 +185,6 @@ namespace BionicleHeroesBingoGUI
         {
             PopoutGrid.UseImages = !PopoutGrid.UseImages;
         }
-
         private void HideText_Checked(object sender, RoutedEventArgs e)
         {
             if (UseImages.IsChecked == true && HideText.IsChecked == true)
@@ -196,7 +195,6 @@ namespace BionicleHeroesBingoGUI
                 }
             }
         }
-
         private void HideText_Unchecked(object sender, RoutedEventArgs e)
         {
             foreach (var item in Buttons.Where(btn => btn.IsClicked))
@@ -204,11 +202,23 @@ namespace BionicleHeroesBingoGUI
                 item.Foreground = Configuration.ButtonFontColor;
             }
         }
-
         private void SettingsMenu(object sender, RoutedEventArgs e)
         {
             ColorSettings s = new ColorSettings();
             s.Show();
+        }
+        private void OpenBoardFileClick(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "Bingo Boards (.kongu)|*.kongu";
+            openFileDialog.ShowDialog();
+        }
+        private void SaveFileAsPNGClicked(object sender, RoutedEventArgs e)
+        {
+            using (var fileStream = File.Create($"./Saved Boards/{((DateTimeOffset)DateTime.Now).ToUnixTimeSeconds()}--{bingoLogic.Seed}.png"))
+            {
+                ImageHelpers.SaveAsPng(ImageHelpers.GetImage(MainGrid), fileStream);
+            }
         }
     }
 }

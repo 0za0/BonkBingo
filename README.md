@@ -1,5 +1,8 @@
 # BonkBingo
-A Bingo Board Generator for Bionicle Heroes
+A Bingo Board Generator for Bionicle Heroes or any game
+
+
+This version loads the entire board from the board.kongu
 
 
 
@@ -84,7 +87,7 @@ For instance if we enter 2 for the vahki flag, "Kill 50 Vahki" and "Kill 250 Vah
 
 
 # Feature List
-- Generate Bingo Boards
+- Generate Bingo Boards (As an Input you can use a file)
 - Images can be used to mark tiles. (Resources/scream.jpg)
 - Pop out the Bingo Board into its seperate window.
 - Change the colors of the tiles and Font.

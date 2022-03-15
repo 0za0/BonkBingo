@@ -5,17 +5,19 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BionicleHeroesBingoGUI"
         mc:Ignorable="d"
-        Title="Bingo Bango Bongo" Width="840" Topmost="True" FontSize="14">
+        Title="Bingo Bango Bongo" Width="840" Topmost="True" FontSize="14" Height="600">
 
     <Grid >
         <Menu DockPanel.Dock="Top" >
-            <MenuItem Header="Help" Click="HelpMenu">
+            <MenuItem Header="File">
+                <MenuItem Header="_Open Kongu File" Click="OpenBoardFileClick" />
+                <MenuItem Header="_Save Board as PNG" Click="SaveFileAsPNGClicked"/>
             </MenuItem>
-            
             <MenuItem Header="Settings" Click="SettingsMenu">
             </MenuItem>
-
             <MenuItem Header="About" Click="AboutMenu">
+            </MenuItem>
+            <MenuItem Header="Help" Click="OpenHelpMenu">
             </MenuItem>
         </Menu>
         <Grid Background="#FFDA9090" ShowGridLines="True" x:Name="MainGrid" Margin="259,17,141,17" Visibility="Visible"  >
@@ -34,7 +36,7 @@
                 <RowDefinition/>
             </Grid.RowDefinitions>
         </Grid>
-        <StackPanel Margin="25,30,0,29" Width="247" HorizontalAlignment="Left">
+        <StackPanel x:Name="FlagsStack" Margin="25,30,0,29" Width="216" HorizontalAlignment="Left">
             <StackPanel.Resources>
                 <Style TargetType="{x:Type CheckBox}">
                     <Setter Property="Margin" Value="0,10,0,0"/>
@@ -49,18 +51,8 @@
                     <Setter Property="Margin" Value="0,10,0,0"/>
                 </Style>
             </StackPanel.Resources>
-            <CheckBox x:Name="Ach1k" Content="Include 1k enemy kills" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-            <CheckBox x:Name="Hewkii" Content="Hewkii" HorizontalAlignment="Left"  VerticalAlignment="Top"/>
-            <CheckBox x:Name="Matoro" Content="Matoro" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="127"/>
-            <CheckBox x:Name="Canisters" Content="Canisters" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="127"/>
-            <CheckBox x:Name="CanisterSubdivision" Content="Canister Subdivision" HorizontalAlignment="Left"  VerticalAlignment="Top"/>
-            <CheckBox x:Name="Shop" Content="Shop" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="127"/>
-            <CheckBox x:Name="Shop2" Content="Locator" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="127"/>
-            <CheckBox x:Name="Playground" Content="Piraka Playground" HorizontalAlignment="Left"  VerticalAlignment="Top"/>
             <CheckBox x:Name="UseImages" Content="Use Images for Bingo" HorizontalAlignment="Left"  VerticalAlignment="Top" Checked="UseImages_Checked"/>
             <CheckBox x:Name="HideText" Content="Hide Text when clicked" HorizontalAlignment="Left"  VerticalAlignment="Top" Unchecked="HideText_Unchecked" Checked="HideText_Checked"/>
-
-            <TextBox x:Name="VahkiTextBox" HorizontalAlignment="Left"  TextWrapping="Wrap" Text="Vahki Level 1-3" VerticalAlignment="Top" Width="120"/>
             <StackPanel Orientation="Horizontal" VerticalAlignment="Stretch" HorizontalAlignment="Left">
                 <StackPanel.Resources>
                     <Style TargetType="{x:Type Button}">
@@ -74,6 +66,5 @@
             <Button x:Name="PopoutBoardButton" Content="Popout Board"  Click="PopOutBtnClicked"  VerticalAlignment="Top" HorizontalAlignment="Left"  />
 
         </StackPanel>
-
     </Grid>
 </Window>
