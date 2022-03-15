@@ -65,7 +65,7 @@ namespace BionicleHeroesBingoGUI
                         goals.AddRange(workaround[i].BoardItems);
                 }
             }
-            
+
             //Get which flags are values
             List<BoardConfigItem> onlyValues = BoardParser.boardConfigItems.Where(x => x.IsValue).ToList();
             for (int i = 0; i < onlyValues.Count(); i++)
@@ -74,12 +74,13 @@ namespace BionicleHeroesBingoGUI
                 // getting the currentItem
                 BoardConfigItem currentItem = onlyValues[i];
                 //Check if we can get a value out
-                int.TryParse(valueFlags[i],out val);
+                int.TryParse(valueFlags[i], out val);
                 //Take as many goals as stated in the textbox
                 goals.AddRange(currentItem.BoardItems.Take(val));
             }
             List<string> board = goals.OrderBy(x => rnd.Next(0, 1000)).Take(25).ToList();
-            board[12] = "Play Piraka Bluff"; //TODO: Define this in the file
+            if (settings.Last() == true)
+                board[12] = BoardParser.boardConfigItems.Last().BoardItems.First(); // TODO: Make this a bit better
             return board;
         }
         private void InitLists()

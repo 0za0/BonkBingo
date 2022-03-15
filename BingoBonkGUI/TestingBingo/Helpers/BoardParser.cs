@@ -48,6 +48,7 @@ namespace BionicleHeroesBingoGUI.Helpers
                         currentItem.BoardItems.Add(currentLine);
                 }
             }
+            boardConfigItems.Add(currentItem);
         }
         public static void PopulateLists()
         {
