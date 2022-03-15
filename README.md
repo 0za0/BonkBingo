@@ -51,7 +51,7 @@ There are special flags that are can be used or should not be tampered with.
 The `[Default]` flag is **not toggleable** and **has to be the _first_ flag defined in the .kongu file**, the values of this flag always get included.
 
 ### `[Always Fill middle Square]`
-The `[Default]` flag **is toggleable** and **has to be the _last_ flag defined in the .kongu file**.
+The `[Always Fill middle Square]` flag **is toggleable** and **has to be the _last_ flag defined in the .kongu file**.
 
 This flag fills the middle/12th square to always be what the flag defined it as. 
 
