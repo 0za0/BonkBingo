@@ -74,6 +74,8 @@ The flag name has to contain a `;RND` (Not shown in GUI) and you can then set th
 
 ### Value Flags
 ![grafik](https://user-images.githubusercontent.com/43097509/158373125-dbed99d8-39a4-4175-9b0c-8048e49109a6.png)
+
+
 The flag name has to contain a `;VALUE` (Not shown in GUI).
 
 These flags generate a input box into the GUI when used, the initial value is the name of the flag.
