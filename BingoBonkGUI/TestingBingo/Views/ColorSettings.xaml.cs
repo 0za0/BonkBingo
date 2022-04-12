@@ -1,8 +1,8 @@
-﻿using System.Windows;
+﻿using System.IO;
+using System.Windows;
 using System.Windows.Forms;
-using MColor = System.Windows.Media.Color;
-using DColor = System.Drawing.Color;
 using BionicleHeroesBingoGUI.Extensions;
+using BionicleHeroesBingoGUI.Helpers;
 
 namespace BionicleHeroesBingoGUI.Views
 {
@@ -46,6 +46,19 @@ namespace BionicleHeroesBingoGUI.Views
             Configuration.ButtonSelectedColor = new System.Windows.Media.SolidColorBrush(ColorConverter.ToMediaColor(dlg.Color));
             TileSelectedColorButton.Background = Configuration.ButtonSelectedColor;
             Configuration.UpdateBonkFile();
+        }
+        private void LoadImageButtonClicked(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "PNG files (*.png)|*.png|JPEG Files (*.jpg)|*.jpg|GIF Files (*.gif)|*.gif";
+            openFileDialog.InitialDirectory = Path.Join(Directory.GetCurrentDirectory(), "Resources");
+            if (openFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                //Get the path of specified file
+                Configuration.ImagePath = Path.GetRelativePath(Directory.GetCurrentDirectory(),openFileDialog.FileName);
+                PathText.Text = Configuration.ImagePath;
+                Configuration.UpdateBonkFile();
+            }
         }
     }
 }

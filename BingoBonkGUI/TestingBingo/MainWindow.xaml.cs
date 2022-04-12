@@ -26,8 +26,7 @@ namespace BionicleHeroesBingoGUI
     {
         private BingoLogic bingoLogic = new BingoLogic();
         private List<WrapButton> Buttons = new List<WrapButton>();
-        public static BitmapSource? BMPSource = null;
-        private PopoutGrid PopoutGrid = new PopoutGrid();
+        private PopoutGrid PopoutGrid;
         private List<string> CurrentBoard = new List<string>();
 
         //I really wish I had more than 5 IQ 
@@ -41,12 +40,14 @@ namespace BionicleHeroesBingoGUI
 
             InitializeComponent();
             CreateButtons();
-            System.Drawing.Image image = System.Drawing.Image.FromFile("Resources/scream.jpg");
-            Bitmap bitmap = new System.Drawing.Bitmap(image);
-            //Create the Bitmap here so we dont have to always re-do it when a button is clicked
-            //Move this to somewhere else
-            BMPSource = Imaging.CreateBitmapSourceFromHBitmap(bitmap.GetHbitmap(), IntPtr.Zero, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
-            bitmap.Dispose();
+            PopoutGrid = new PopoutGrid();
+            GenerateFlags();
+
+            if (Configuration.BitmapImage == null)
+                UseImages.IsEnabled = false;
+        }
+        private void GenerateFlags()
+        {
             foreach (var item in bingoLogic.GenerateControlsNeeded())
             {
                 //Number flags get added here
@@ -107,7 +108,9 @@ namespace BionicleHeroesBingoGUI
                 //To avoid the warning I do ==true
                 if (UseImages.IsChecked == true)
                 {
-                    Buttons[buttonIndex].Background = new ImageBrush(BMPSource);
+
+                    Buttons[buttonIndex].ButtonImage.Visibility = Visibility.Visible;
+                    Buttons[buttonIndex].Background = Configuration.ButtonSelectedColor;
                     if (HideText.IsChecked == true)
                     {
                         Buttons[buttonIndex].Foreground = Configuration.ButtonInvisibleFont;
@@ -119,6 +122,7 @@ namespace BionicleHeroesBingoGUI
             }
             else
             {
+                Buttons[buttonIndex].ButtonImage.Visibility = Visibility.Hidden;
                 Buttons[buttonIndex].Background = Configuration.ButtonDeselectedColor;
                 Buttons[buttonIndex].Foreground = Configuration.ButtonFontColor;
             }
@@ -154,13 +158,16 @@ namespace BionicleHeroesBingoGUI
                 //Cursed
                 List<bool?> flagsInOrder = flags.Select(x => x.IsChecked).ToList();
                 List<string> flagsValue = valueFlags.Select(x => x.Text).ToList();
+                if (!int.TryParse(SeedTextBox.Text, out int seed))
+                    seed = -1;
 
-                CurrentBoard = bingoLogic.GenerateBoard(flagsInOrder, int.Parse(SeedTextBox.Text), flagsValue);
+                CurrentBoard = bingoLogic.GenerateBoard(flagsInOrder, seed, flagsValue);
                 PopoutGrid.FillBoard(CurrentBoard);
                 FillButtonText(CurrentBoard);
 
                 foreach (var item in Buttons)
                 {
+                    item.ButtonImage.Visibility = Visibility.Hidden;
                     item.Background = Configuration.ButtonDeselectedColor;
                     item.IsClicked = false;
                 }
@@ -181,32 +188,77 @@ namespace BionicleHeroesBingoGUI
             AboutMenu a = new AboutMenu();
             a.Show();
         }
+        //Sum checked and unchecked into 1 event, its possible I am tired tho
         private void UseImages_Checked(object sender, RoutedEventArgs e)
         {
             PopoutGrid.UseImages = !PopoutGrid.UseImages;
+            Buttons.Where(x => x.IsClicked).ToList().ForEach(x => x.ButtonImage.Visibility = Visibility.Visible);
+            PopoutGrid.UpdateButtonColors();
         }
+        private void UseImages_Unchecked(object sender, RoutedEventArgs e)
+        {
+            PopoutGrid.UseImages = !PopoutGrid.UseImages;
+            Buttons.Where(x => x.IsClicked).ToList().ForEach(x =>
+            {
+                x.Background = Configuration.ButtonSelectedColor;
+                x.ButtonImage.Visibility = Visibility.Hidden;
+            });
+            PopoutGrid.UpdateButtonColors();
+        }
+        //Apply to PopoutBoard
         private void HideText_Checked(object sender, RoutedEventArgs e)
         {
             if (UseImages.IsChecked == true && HideText.IsChecked == true)
             {
                 foreach (var item in Buttons.Where(btn => btn.IsClicked))
-                {
                     item.Foreground = Configuration.ButtonInvisibleFont;
-                }
+
+                PopoutGrid.HideText = !PopoutGrid.HideText;
+                PopoutGrid.UpdateButtonColors();
+
             }
         }
         private void HideText_Unchecked(object sender, RoutedEventArgs e)
         {
             foreach (var item in Buttons.Where(btn => btn.IsClicked))
-            {
                 item.Foreground = Configuration.ButtonFontColor;
-            }
+
+            PopoutGrid.HideText = !PopoutGrid.HideText;
+            PopoutGrid.UpdateButtonColors();
         }
         private void SettingsMenu(object sender, RoutedEventArgs e)
         {
             ColorSettings s = new ColorSettings();
             s.Show();
+            s.Closed += (obj, e) =>
+            {
+                if (Configuration.BitmapImage == null)
+                    UseImages.IsEnabled = false;
+                else
+                    UseImages.IsEnabled = true;
+
+
+                Buttons.Clear();
+                CreateButtons();
+                FillButtonText(CurrentBoard);
+                ApplyNewColorToButtons();
+            };
+
         }
+
+        private void ApplyNewColorToButtons()
+        {
+            foreach (var item in Buttons)
+            {
+                item.Foreground = Configuration.ButtonFontColor;
+                if (item.IsClicked)
+                    item.Background = Configuration.ButtonSelectedColor;
+                else
+                    item.Background = Configuration.ButtonDeselectedColor;
+
+            }
+        }
+
         private void OpenBoardFileClick(object sender, RoutedEventArgs e)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();

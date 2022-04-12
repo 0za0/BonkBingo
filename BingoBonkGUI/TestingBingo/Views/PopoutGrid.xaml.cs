@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BionicleHeroesBingoGUI.Helpers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -24,6 +25,7 @@ namespace BionicleHeroesBingoGUI.Views
     {
         private List<WrapButton> Buttons = new List<WrapButton>();
         public bool UseImages { get; set; }
+        public bool HideText { get; set; }
         public PopoutGrid()
         {
             InitializeComponent();
@@ -47,6 +49,7 @@ namespace BionicleHeroesBingoGUI.Views
                     butt.Click += Button_Click;
                     MainGrid.Children.Add(butt);
                     butt.IsClicked = false;
+                    butt.Background = Configuration.ButtonDeselectedColor;
                     butt.Foreground = Configuration.ButtonFontColor;
                     count++;
                     Buttons.Add(butt);
@@ -64,32 +67,50 @@ namespace BionicleHeroesBingoGUI.Views
 
             if (Buttons[buttonIndex].IsClicked)
             {
-
+                Buttons[buttonIndex].Background = Configuration.ButtonSelectedColor;
                 if (UseImages)
-                    Buttons[buttonIndex].Background = new ImageBrush(MainWindow.BMPSource);
-                else
-                    Buttons[buttonIndex].Background = Configuration.ButtonSelectedColor;
+                    Buttons[buttonIndex].ButtonImage.Visibility = Visibility.Visible;
             }
             else
             {
                 Buttons[buttonIndex].Background = Configuration.ButtonDeselectedColor;
+                Buttons[buttonIndex].ButtonImage.Visibility = Visibility.Hidden;
             }
-
-
-
         }
         public void FillBoard(List<string> board)
         {
             //This is what you call ((((Exception Handling)))) 
             if (board.Any())
-            { 
+            {
                 for (int i = 0; i < 25; i++)
                 {
+                    Buttons[i].ButtonImage.Visibility = Visibility.Hidden;
                     Buttons[i].Background = Configuration.ButtonDeselectedColor;
-                    Buttons[i].Foreground= Configuration.ButtonFontColor;
+                    Buttons[i].Foreground = Configuration.ButtonFontColor;
                     Buttons[i].Text = board[i];
                 }
             }
+        }
+        public void UpdateButtonColors()
+        {
+            if (UseImages)
+            {
+                Buttons.Where(x => x.IsClicked).ToList().ForEach(x => x.ButtonImage.Visibility = Visibility.Visible);
+
+                if (HideText)
+                    Buttons.Where(x => x.IsClicked).ToList().ForEach(x => x.Foreground = Configuration.ButtonInvisibleFont);
+                else
+                    Buttons.Where(x => x.IsClicked).ToList().ForEach(x => x.Foreground = Configuration.ButtonFontColor);
+            }
+
+            else
+                Buttons.Where(x => x.IsClicked).ToList().ForEach(x =>
+                {
+                    x.Foreground = Configuration.ButtonFontColor;
+                    x.Background = Configuration.ButtonSelectedColor;
+                    x.ButtonImage.Visibility = Visibility.Hidden;
+                });
+
         }
     }
 }

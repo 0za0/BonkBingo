@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BionicleHeroesBingoGUI.Views"
-        
+        xmlns:helpers="clr-namespace:BionicleHeroesBingoGUI.Helpers"
         mc:Ignorable="d"
         Title="ColorSettings" Height="194" Width="300" Topmost="True" WindowStyle="ToolWindow" >
     <StackPanel>
@@ -17,7 +17,10 @@
                 <Setter Property="Margin" Value="40,0,0,0"/>
                 <Setter Property="Width" Value="115"/>
             </Style>
-                
+            <Style TargetType="{x:Type TextBox}">
+                <Setter Property="Margin" Value="40,0,0,0"/>
+                <Setter Property="Width" Value="115"/>
+            </Style>
             <Style TargetType="{x:Type StackPanel}">
                 <Setter Property="Margin" Value="0,10,0,0"/>
             </Style>
@@ -33,6 +36,10 @@
         <StackPanel Orientation="Horizontal" Height="25">
             <Label Content="Tile Clicked Color"/>
             <Button x:Name="TileSelectedColorButton" Content="               " Click="TileSelectedColorButtonClick"/>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" Height="25">
+            <TextBox x:Name="PathText" Text="{Binding Source={x:Static helpers:Configuration.ImagePath},Mode=OneWay}"/>
+            <Button x:Name="LoadImage" Content="   Load   " Click="LoadImageButtonClicked" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
         </StackPanel>
 
     </StackPanel>

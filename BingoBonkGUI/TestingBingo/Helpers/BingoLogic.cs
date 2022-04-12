@@ -78,7 +78,11 @@ namespace BionicleHeroesBingoGUI
                 //Take as many goals as stated in the textbox
                 goals.AddRange(currentItem.BoardItems.Take(val));
             }
-            List<string> board = goals.OrderBy(x => rnd.Next(0, 1000)).Take(25).ToList();
+            //2 ways to remove the Static Flag
+            //Literally remove the last 
+            //Write an extra flag into the boardconfig items 
+            goals.Remove(goals.Last());
+            List<string> board = goals.OrderBy(x => rnd.Next()).Take(25).ToList();
             if (settings.Last() == true)
                 board[12] = BoardParser.boardConfigItems.Last().BoardItems.First(); // TODO: Make this a bit better
             return board;
