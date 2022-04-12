@@ -15,7 +15,8 @@ Just hit me up on Discord or create an issue, I'll try my best.
 Buttons can display animated gifs, but be careful, this can quickly eat up a lot of RAM, because the Library used for this caches **every goddamn frame** in memory.
 Please compress your gifs, or scale them down to ~130x130 (300kB).
 Otherwise, this will eat more RAM than Chrome, be warned.
- 
+ ![2022-04-12-03-51-30](https://user-images.githubusercontent.com/43097509/162863246-f9f694f2-3a75-49ad-926e-5cff16e16082.gif)
+
 # How to use
 ~~You need [.NET 5](https://dotnet.microsoft.com/en-us/download/dotnet/5.0)~~
 
