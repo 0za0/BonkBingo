@@ -12,7 +12,7 @@ This version loads the entire board from the board.kongu
 Just hit me up on Discord or create an issue, I'll try my best.
 
 # GIF Support (Experimental) 
-Buttons can be gifs, but be careful, this can quickly eat up a lot of RAM, because the Library used for this caches **every goddamn frame** in memory.
+Buttons can display animated gifs, but be careful, this can quickly eat up a lot of RAM, because the Library used for this caches **every goddamn frame** in memory.
 Please compress your gifs, or scale them down to ~130x130 (300kB).
 Otherwise, this will eat more RAM than Chrome, be warned.
  
