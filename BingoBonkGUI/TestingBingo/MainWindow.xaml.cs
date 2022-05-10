@@ -86,7 +86,7 @@ namespace BionicleHeroesBingoGUI
                     butt.Click += Button_Click;
                     MainGrid.Children.Add(butt);
                     butt.IsClicked = false;
-                    butt.Background = Configuration.ButtonDeselectedColor;
+                    butt.Background = Configuration.TwoPlayerColors;
                     butt.Foreground = Configuration.ButtonFontColor;
                     count++;
                     Buttons.Add(butt);

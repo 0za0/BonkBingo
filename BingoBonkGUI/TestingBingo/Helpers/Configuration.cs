@@ -23,6 +23,7 @@ namespace BionicleHeroesBingoGUI.Helpers
         public static SolidColorBrush ButtonInvisibleFont = new SolidColorBrush(MColor.FromArgb(0, 0, 0, 0));
         public static BitmapImage BitmapImage { get; set; } = new BitmapImage();
         public static ImageSource BitmapSource { get; private set; }
+        public static LinearGradientBrush TwoPlayerColors =new LinearGradientBrush();
 
         public static void LoadColorConfig()
         {
@@ -39,10 +40,12 @@ namespace BionicleHeroesBingoGUI.Helpers
             ButtonFontColor = new SolidColorBrush(MColor.FromRgb(byte.Parse(RGBData[0]), byte.Parse(RGBData[1]), byte.Parse(RGBData[2])));
             ImagePath = allLines[3].Split("=")[1];
             TryGetImage();
-
-
-
-
+            TwoPlayerColors.StartPoint = new System.Windows.Point(0, 0);
+            TwoPlayerColors.EndPoint = new System.Windows.Point(1, 1);
+            TwoPlayerColors.GradientStops.Add(new GradientStop(Colors.LightBlue, 0.49));
+            TwoPlayerColors.GradientStops.Add(new GradientStop(Colors.Black, 0.495));
+            TwoPlayerColors.GradientStops.Add(new GradientStop(Colors.Black, 0.505));
+            TwoPlayerColors.GradientStops.Add(new GradientStop(Colors.LightGreen, 0.505));
 
         }
         //I am cheesing this so fucking hard
@@ -77,7 +80,7 @@ namespace BionicleHeroesBingoGUI.Helpers
                     BitmapImage.BeginInit();
                     BitmapImage.StreamSource = stream;
                     BitmapImage.EndInit();
-                   
+
                 }
                 else
                 {
@@ -85,7 +88,7 @@ namespace BionicleHeroesBingoGUI.Helpers
                     Bitmap bitmap = new Bitmap(image);
                     BitmapSource = Imaging.CreateBitmapSourceFromHBitmap(bitmap.GetHbitmap(), IntPtr.Zero, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
                     bitmap.Dispose();
-                    
+
                 }
             }
         }
