@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BBO_Debug_Dev"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="450" Width="641">
     <Grid>
         <TextBox x:Name="UsernameTextbox" HorizontalAlignment="Left" Margin="161,129,0,0" TextWrapping="Wrap" Text="TestUser" VerticalAlignment="Top" Width="154"/>
         <Label Content="Username" HorizontalAlignment="Left" Margin="93,125,0,0" VerticalAlignment="Top"/>
@@ -13,6 +13,7 @@
         <TextBox x:Name="KeyTextBox" HorizontalAlignment="Left" Margin="161,152,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="154" Text="AAAA-AAAA-AAAA-AAAA"/>
         <Label Content="Key" HorizontalAlignment="Left" Margin="93,148,0,0" VerticalAlignment="Top"/>
         <Button Content="Register User" HorizontalAlignment="Left" Margin="491,129,0,0" VerticalAlignment="Top"  Height="51" Width="82" Click="Button_Click_1"/>
-
+        <Button Content="TEST" HorizontalAlignment="Left" Margin="467,239,0,0" VerticalAlignment="Top"  Height="51" Width="82" Click="Button_Click_2" />
+        <TextBlock x:Name="Config" HorizontalAlignment="Left" Margin="93,239,0,0" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top" Height="185" Width="222"/>
     </Grid>
 </Window>

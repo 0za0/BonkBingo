@@ -4,6 +4,7 @@ using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using SocketIOClient;
 using System.IO;
 using System.Linq;
 using System.Windows;
@@ -29,6 +30,12 @@ namespace BionicleHeroesBingoGUI
         private PopoutGrid PopoutGrid;
         private List<string> CurrentBoard = new List<string>();
 
+        //Networking Stuff
+        public SocketIO Client { get; private set; }
+        public User User { get; private set; }
+        BoardConfig BoardConfig = new BoardConfig();
+
+
         //I really wish I had more than 5 IQ 
         private List<CheckBox> flags = new List<CheckBox>();
         private List<TextBox> valueFlags = new List<TextBox>();
@@ -37,11 +44,11 @@ namespace BionicleHeroesBingoGUI
         {
             //Very quickly hacked in color configuration
             Configuration.LoadColorConfig();
-
+            bingoLogic.GenerateControlsNeeded();
             InitializeComponent();
             CreateButtons();
             PopoutGrid = new PopoutGrid();
-            GenerateFlags();
+            //GenerateFlags();
 
             if (Configuration.BitmapImage == null)
                 UseImages.IsEnabled = false;
@@ -86,7 +93,7 @@ namespace BionicleHeroesBingoGUI
                     butt.Click += Button_Click;
                     MainGrid.Children.Add(butt);
                     butt.IsClicked = false;
-                    butt.Background = Configuration.TwoPlayerColors;
+                    butt.Background = Configuration.ButtonDeselectedColor;
                     butt.Foreground = Configuration.ButtonFontColor;
                     count++;
                     Buttons.Add(butt);
@@ -130,10 +137,10 @@ namespace BionicleHeroesBingoGUI
 
 
         }
-        private void RegenSeedButtonClicked(object sender, RoutedEventArgs e)
-        {
-            SeedTextBox.Text = bingoLogic.GenerateSeed().ToString();
-        }
+        //private void RegenSeedButtonClicked(object sender, RoutedEventArgs e)
+        //{
+        //    SeedTextBox.Text = bingoLogic.GenerateSeed().ToString();
+        //}
         private void PopOutBtnClicked(object sender, RoutedEventArgs e)
         {
             PopoutGrid.FillBoard(CurrentBoard);
@@ -158,10 +165,10 @@ namespace BionicleHeroesBingoGUI
                 //Cursed
                 List<bool?> flagsInOrder = flags.Select(x => x.IsChecked).ToList();
                 List<string> flagsValue = valueFlags.Select(x => x.Text).ToList();
-                if (!int.TryParse(SeedTextBox.Text, out int seed))
-                    seed = -1;
+                //if (!int.TryParse(SeedTextBox.Text, out int seed))
+                //    seed = -1;
 
-                CurrentBoard = bingoLogic.GenerateBoard(flagsInOrder, seed, flagsValue);
+                //CurrentBoard = bingoLogic.GenerateBoard(flagsInOrder, seed, flagsValue);
                 PopoutGrid.FillBoard(CurrentBoard);
                 FillButtonText(CurrentBoard);
 
@@ -271,6 +278,57 @@ namespace BionicleHeroesBingoGUI
             {
                 ImageHelpers.SaveAsPng(ImageHelpers.GetImage(MainGrid), fileStream);
             }
+        }
+
+        private async void ConnectButtonClicked(object sender, RoutedEventArgs e)
+        {
+            string a = "";
+            Dispatcher.Invoke(new Action(() => { a = KeyTextBox.Text; }));
+            Client = new SocketIO($"http://bingo.test.dev:5000/{a}");
+            //Client.Options.Auth = a;
+            Client.Options.ExtraHeaders = new Dictionary<string, string>();
+            Client.Options.ExtraHeaders["KEY"] = a;
+            Client.OnConnected += async (sender, e) =>
+            {
+                Dispatcher.Invoke(new Action(() => { ConnectionStatusText.Text = "Connection Status: Connected"; ConnectButton.IsEnabled = false; }));
+            };
+            Client.OnDisconnected += async (sender, e) =>
+            {
+                Dispatcher.Invoke(new Action(() => { ConnectionStatusText.Text = "Connection Status: Disconnected"; ConnectButton.IsEnabled = true; }));
+            };
+
+            Client.On("successRegister", response =>
+            {
+
+                BoardConfig = response.GetValue<BoardConfig>();
+                Dispatcher.Invoke(new Action(() => { BingoBoardConfig.Text = BoardConfig.ToString(); }));
+                List<bool?> Flags = new List<bool?>() { BoardConfig.Canister, BoardConfig.CanisterSubdivide, BoardConfig.Ach1k, BoardConfig.Matoro, BoardConfig.Hewkii, BoardConfig.Shop, BoardConfig.CanisterLocator, BoardConfig.PirakaPlayground, BoardConfig.AlwaysFillMiddleSquare };
+                List<string> f = new List<string>() { BoardConfig.Vahki.ToString() };
+                CurrentBoard = bingoLogic.GenerateBoard(Flags, BoardConfig.Seed, f);
+                // MessageBox.Show(String.Join("\n", board));
+                Client.EmitAsync("SendBoard", CurrentBoard);
+                Dispatcher.Invoke(new Action(() => {
+                    FillButtonText(CurrentBoard);
+                }));
+            });
+
+            Client.On("boardUpadte", response =>
+            {
+                BoardConfig = response.GetValue<BoardConfig>();
+                Dispatcher.Invoke(new Action(() => { BingoBoardConfig.Text = BoardConfig.ToString(); }));
+                List<bool?> Flags = new List<bool?>() { BoardConfig.Canister, BoardConfig.CanisterSubdivide, BoardConfig.Ach1k, BoardConfig.Matoro, BoardConfig.Hewkii, BoardConfig.Shop, BoardConfig.CanisterLocator, BoardConfig.PirakaPlayground, BoardConfig.AlwaysFillMiddleSquare };
+                List<string> f = new List<string>() { BoardConfig.Vahki.ToString() };
+                CurrentBoard = bingoLogic.GenerateBoard(Flags, BoardConfig.Seed, f);
+                //MessageBox.Show(String.Join("\n", board));
+
+                Client.EmitAsync("SendBoard", CurrentBoard);
+                Dispatcher.Invoke(new Action(() => {
+                    FillButtonText(CurrentBoard);
+                }));
+            });
+            await Client.ConnectAsync();
+            User = new User(UsernameTextBox.Text, KeyTextBox.Text);
+            await Client.EmitAsync("register", User);
         }
     }
 }

@@ -5,10 +5,14 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BionicleHeroesBingoGUI"
         mc:Ignorable="d"
-        Title="Bingo Bango Bongo" Width="840" Topmost="True" FontSize="14" Height="600">
+        Title="Bingo Bango Bongo (Networking Enabled Edition)" Width="840" Topmost="True" FontSize="14" Height="600">
 
     <Grid >
-        <Menu DockPanel.Dock="Top" >
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="43*"/>
+            <ColumnDefinition Width="237*"/>
+        </Grid.ColumnDefinitions>
+        <Menu Grid.ColumnSpan="2" >
             <MenuItem Header="File">
                 <MenuItem Header="_Open Kongu File" Click="OpenBoardFileClick" />
                 <MenuItem Header="_Save Board as PNG" Click="SaveFileAsPNGClicked"/>
@@ -20,7 +24,7 @@
             <MenuItem Header="Help" Click="OpenHelpMenu">
             </MenuItem>
         </Menu>
-        <Grid Background="#FFDA9090" ShowGridLines="True" x:Name="MainGrid" Margin="259,17,141,17" Visibility="Visible"  >
+        <Grid Background="#FFDA9090" ShowGridLines="True" x:Name="MainGrid" Margin="130,17,141,17" Visibility="Visible" Grid.Column="1"  >
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
                 <ColumnDefinition/>
@@ -36,7 +40,7 @@
                 <RowDefinition/>
             </Grid.RowDefinitions>
         </Grid>
-        <StackPanel x:Name="FlagsStack" Margin="25,30,0,29" Width="216" HorizontalAlignment="Left">
+        <StackPanel x:Name="FlagsStack" Margin="25,30,0,29" Width="216" HorizontalAlignment="Left" Grid.ColumnSpan="2">
             <StackPanel.Resources>
                 <Style TargetType="{x:Type CheckBox}">
                     <Setter Property="Margin" Value="0,10,0,0"/>
@@ -53,7 +57,11 @@
             </StackPanel.Resources>
             <CheckBox x:Name="UseImages" Content="Use Images for Bingo" HorizontalAlignment="Left"  VerticalAlignment="Top" Checked="UseImages_Checked" Unchecked="UseImages_Unchecked"/>
             <CheckBox x:Name="HideText" Content="Hide Text when clicked" HorizontalAlignment="Left"  VerticalAlignment="Top" Unchecked="HideText_Unchecked" Checked="HideText_Checked"/>
-            <StackPanel Orientation="Horizontal" VerticalAlignment="Stretch" HorizontalAlignment="Left">
+            <TextBox x:Name="UsernameTextBox" TextWrapping="Wrap" Text="Username" HorizontalAlignment="Left" VerticalAlignment="Top" Width="120"/>
+            <TextBox x:Name="KeyTextBox" TextWrapping="Wrap" Text="AAAA-AAAA-AAAA-AAAA" HorizontalAlignment="Left" Width="182"/>
+            <Button x:Name="ConnectButton" Click="ConnectButtonClicked">Connect</Button>
+
+            <!--<StackPanel Orientation="Horizontal" VerticalAlignment="Stretch" HorizontalAlignment="Left">
                 <StackPanel.Resources>
                     <Style TargetType="{x:Type Button}">
                         <Setter Property="Margin" Value="10,10,0,0"/>
@@ -61,10 +69,20 @@
                 </StackPanel.Resources>
                 <TextBox x:Name="SeedTextBox" TextWrapping="Wrap" Text="-1" VerticalAlignment="Top" Width="120"/>
                 <Button Click="RegenSeedButtonClicked">Regen Seed</Button>
-            </StackPanel>
-            <Button Content="Generate New Board"  Click="Generate"  VerticalAlignment="Top" HorizontalAlignment="Left"  />
-            <Button x:Name="PopoutBoardButton" Content="Popout Board"  Click="PopOutBtnClicked"  VerticalAlignment="Top" HorizontalAlignment="Left"  />
+            </StackPanel>-->
 
+            <!--<Button Content="Generate New Board"  Click="Generate"  VerticalAlignment="Top" HorizontalAlignment="Left"  />-->
+            <Button x:Name="PopoutBoardButton" Content="Popout Board"  Click="PopOutBtnClicked"  VerticalAlignment="Top" HorizontalAlignment="Left"  />
+            <TextBox x:Name="BingoBoardConfig" IsReadOnly="True" />
         </StackPanel>
+        <TextBlock x:Name="ConnectionStatusText" VerticalAlignment="Bottom" HorizontalAlignment="Left" Text="Connection Status: Disconnected" RenderTransformOrigin="0.5,0.5" Grid.ColumnSpan="2" Height="25" >
+            <TextBlock.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform Angle="-0.224"/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </TextBlock.RenderTransform></TextBlock>
     </Grid>
 </Window>
