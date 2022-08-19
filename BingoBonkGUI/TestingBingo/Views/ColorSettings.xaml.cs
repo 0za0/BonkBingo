@@ -17,6 +17,7 @@ namespace BionicleHeroesBingoGUI.Views
             ChangeFontColorButton.Background = Configuration.ButtonFontColor;
             TileColorButton.Background = Configuration.ButtonDeselectedColor;
             TileSelectedColorButton.Background = Configuration.ButtonSelectedColor;
+            Player2ColorButton.Background = Configuration.ButtonSelectedColorP2;
 
         }
         //Please change this at some point I beg you
@@ -45,6 +46,15 @@ namespace BionicleHeroesBingoGUI.Views
             dlg.ShowDialog();
             Configuration.ButtonSelectedColor = new System.Windows.Media.SolidColorBrush(ColorConverter.ToMediaColor(dlg.Color));
             TileSelectedColorButton.Background = Configuration.ButtonSelectedColor;
+            Configuration.UpdateBonkFile();
+        }
+        private void Player2ColorButtonClick(object sender, RoutedEventArgs e)
+        {
+            ColorDialog dlg = new ColorDialog();
+            dlg.Color = ColorConverter.ToDrawingColor(Configuration.ButtonFontColor.Color);
+            dlg.ShowDialog();
+            Configuration.ButtonSelectedColorP2 = new System.Windows.Media.SolidColorBrush(ColorConverter.ToMediaColor(dlg.Color));
+            Player2ColorButton.Background = Configuration.ButtonSelectedColor;
             Configuration.UpdateBonkFile();
         }
         private void LoadImageButtonClicked(object sender, RoutedEventArgs e)

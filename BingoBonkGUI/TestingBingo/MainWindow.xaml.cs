@@ -324,8 +324,16 @@ namespace BionicleHeroesBingoGUI
                 Message m = response.GetValue<Message>();
                 if (User.Username != m.Username)
                 {
-                    Dispatcher.Invoke(new Action(() => { Buttons[m.Tile].Background = Configuration.ButtonSelectedColorP2; }));
+                    if (Buttons[m.Tile].Background != Configuration.ButtonDeselectedColor)
+                    {
+                        Dispatcher.Invoke(new Action(() => { Buttons[m.Tile].Background = Configuration.TwoPlayerColors; }));
 
+                    }
+                    else
+                    {
+
+                        Dispatcher.Invoke(new Action(() => { Buttons[m.Tile].Background = Configuration.ButtonSelectedColorP2; }));
+                    }
 
                 }
             });

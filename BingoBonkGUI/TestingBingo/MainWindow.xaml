@@ -55,7 +55,7 @@
                     <Setter Property="Margin" Value="0,10,0,0"/>
                 </Style>
             </StackPanel.Resources>
-            <CheckBox x:Name="UseImages" Content="Use Images for Bingo" HorizontalAlignment="Left"  VerticalAlignment="Top" Checked="UseImages_Checked" Unchecked="UseImages_Unchecked"/>
+            <CheckBox x:Name="UseImages" Content="Use Images for Bingo" HorizontalAlignment="Left"  VerticalAlignment="Top" Checked="UseImages_Checked" Unchecked="UseImages_Unchecked" IsEnabled="False"/>
             <CheckBox x:Name="HideText" Content="Hide Text when clicked" HorizontalAlignment="Left"  VerticalAlignment="Top" Unchecked="HideText_Unchecked" Checked="HideText_Checked"/>
             <TextBox x:Name="UsernameTextBox" TextWrapping="Wrap" Text="Username" HorizontalAlignment="Left" VerticalAlignment="Top" Width="120"/>
             <TextBox x:Name="KeyTextBox" TextWrapping="Wrap" Text="AAAA-AAAA-AAAA-AAAA" HorizontalAlignment="Left" Width="182"/>

@@ -39,14 +39,16 @@ namespace BionicleHeroesBingoGUI.Helpers
 
             RGBData = allLines[2].Split("=")[1].Split(",");
             ButtonFontColor = new SolidColorBrush(MColor.FromRgb(byte.Parse(RGBData[0]), byte.Parse(RGBData[1]), byte.Parse(RGBData[2])));
-            ImagePath = allLines[3].Split("=")[1];
-            TryGetImage();
+
+            RGBData = allLines[3].Split("=")[1].Split(",");
+            ButtonSelectedColorP2 = new SolidColorBrush(MColor.FromRgb(byte.Parse(RGBData[0]), byte.Parse(RGBData[1]), byte.Parse(RGBData[2])));
+
             TwoPlayerColors.StartPoint = new System.Windows.Point(0, 0);
             TwoPlayerColors.EndPoint = new System.Windows.Point(1, 1);
-            TwoPlayerColors.GradientStops.Add(new GradientStop(Colors.LightBlue, 0.49));
+            TwoPlayerColors.GradientStops.Add(new GradientStop(ButtonSelectedColor.Color, 0.49));
             TwoPlayerColors.GradientStops.Add(new GradientStop(Colors.Black, 0.495));
             TwoPlayerColors.GradientStops.Add(new GradientStop(Colors.Black, 0.505));
-            TwoPlayerColors.GradientStops.Add(new GradientStop(Colors.LightGreen, 0.505));
+            TwoPlayerColors.GradientStops.Add(new GradientStop(ButtonSelectedColorP2.Color, 0.505));
 
         }
         //I am cheesing this so fucking hard
@@ -58,7 +60,7 @@ namespace BionicleHeroesBingoGUI.Helpers
             fileToWrite[0] = $"TileColor={ButtonDeselectedColor.Color.R},{ButtonDeselectedColor.Color.G},{ButtonDeselectedColor.Color.B}";
             fileToWrite[1] = $"TileClickedColor={ButtonSelectedColor.Color.R},{ButtonSelectedColor.Color.G},{ButtonSelectedColor.Color.B}";
             fileToWrite[2] = $"FontColor={ButtonFontColor.Color.R},{ButtonFontColor.Color.G},{ButtonFontColor.Color.B}";
-            fileToWrite[3] = $"ImagePath={ImagePath}";
+            fileToWrite[3] = $"Player2Color={ButtonSelectedColorP2.Color.R},{ButtonSelectedColorP2.Color.G},{ButtonSelectedColorP2.Color.B}";
             //I only did it this way because fuckass File.WriteAllLines wasnt fucking working
             using (StreamWriter sw = new StreamWriter("config.bonk"))
             {
@@ -67,7 +69,13 @@ namespace BionicleHeroesBingoGUI.Helpers
                 sw.WriteLine(fileToWrite[2]);
                 sw.WriteLine(fileToWrite[3]);
             }
-            TryGetImage();
+            TwoPlayerColors.StartPoint = new System.Windows.Point(0, 0);
+            TwoPlayerColors.EndPoint = new System.Windows.Point(1, 1);
+            TwoPlayerColors.GradientStops.Add(new GradientStop(ButtonSelectedColor.Color, 0.49));
+            TwoPlayerColors.GradientStops.Add(new GradientStop(Colors.Black, 0.495));
+            TwoPlayerColors.GradientStops.Add(new GradientStop(Colors.Black, 0.505));
+            TwoPlayerColors.GradientStops.Add(new GradientStop(ButtonSelectedColorP2.Color, 0.505));
+            //TryGetImage();
         }
         internal static void TryGetImage()
         {

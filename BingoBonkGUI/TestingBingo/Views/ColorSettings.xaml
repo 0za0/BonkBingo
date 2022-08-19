@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:BionicleHeroesBingoGUI.Views"
         xmlns:helpers="clr-namespace:BionicleHeroesBingoGUI.Helpers"
         mc:Ignorable="d"
-        Title="ColorSettings" Height="194" Width="300" Topmost="True" WindowStyle="ToolWindow" >
+        Title="ColorSettings" Height="266" Width="300" Topmost="True" WindowStyle="ToolWindow" >
     <StackPanel>
         <StackPanel.Resources>
             <Style TargetType="{x:Type Button}">
@@ -38,7 +38,11 @@
             <Button x:Name="TileSelectedColorButton" Content="               " Click="TileSelectedColorButtonClick"/>
         </StackPanel>
         <StackPanel Orientation="Horizontal" Height="25">
-            <TextBox x:Name="PathText" Text="{Binding Source={x:Static helpers:Configuration.ImagePath},Mode=OneWay}"/>
+            <Label Content="Player2Color"/>
+            <Button x:Name="Player2ColorButton" Content="               " Click="Player2ColorButtonClick"/>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" Height="25" IsEnabled="False">
+            <TextBox x:Name="PathText" Text="{Binding Mode=OneWay, Source={x:Static helpers:Configuration.ImagePath}}"/>
             <Button x:Name="LoadImage" Content="   Load   " Click="LoadImageButtonClicked" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
         </StackPanel>
 
