@@ -130,7 +130,18 @@ namespace BionicleHeroesBingoGUI
                 }
 
                 else
+                {
+                    if (Buttons[buttonIndex].Background != Configuration.ButtonDeselectedColor)
+                    {
+                        Buttons[buttonIndex].Background = Configuration.TwoPlayerColors;
+
+                    }
+                    else
+                    {
+
                     Buttons[buttonIndex].Background = Configuration.ButtonSelectedColor;
+                    }
+                }
             }
             else
             {
@@ -324,14 +335,13 @@ namespace BionicleHeroesBingoGUI
                 Message m = response.GetValue<Message>();
                 if (User.Username != m.Username)
                 {
-                    if (Buttons[m.Tile].Background != Configuration.ButtonDeselectedColor)
+                    if (Buttons[m.Tile].IsClicked)
                     {
                         Dispatcher.Invoke(new Action(() => { Buttons[m.Tile].Background = Configuration.TwoPlayerColors; }));
 
                     }
                     else
                     {
-
                         Dispatcher.Invoke(new Action(() => { Buttons[m.Tile].Background = Configuration.ButtonSelectedColorP2; }));
                     }
 

@@ -54,7 +54,7 @@ namespace BionicleHeroesBingoGUI.Views
             dlg.Color = ColorConverter.ToDrawingColor(Configuration.ButtonFontColor.Color);
             dlg.ShowDialog();
             Configuration.ButtonSelectedColorP2 = new System.Windows.Media.SolidColorBrush(ColorConverter.ToMediaColor(dlg.Color));
-            Player2ColorButton.Background = Configuration.ButtonSelectedColor;
+            Player2ColorButton.Background = Configuration.ButtonSelectedColorP2;
             Configuration.UpdateBonkFile();
         }
         private void LoadImageButtonClicked(object sender, RoutedEventArgs e)

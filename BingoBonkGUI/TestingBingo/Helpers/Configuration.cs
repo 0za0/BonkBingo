@@ -7,7 +7,6 @@ using System.Windows.Media.Imaging;
 using System.Drawing;
 using System.Windows.Interop;
 using MColor = System.Windows.Media.Color;
-using XamlAnimatedGif;
 
 namespace BionicleHeroesBingoGUI.Helpers
 {
