@@ -18,6 +18,7 @@ namespace BionicleHeroesBingoGUI.Helpers
         public static bool IsGif { get; private set; }
         public static SolidColorBrush ButtonDeselectedColor { get; set; } = new SolidColorBrush(MColor.FromArgb(0, 0, 0, 0));
         public static SolidColorBrush ButtonSelectedColor { get; set; } = new SolidColorBrush(MColor.FromArgb(0, 0, 0, 0));
+        public static SolidColorBrush ButtonSelectedColorP2 { get; set; } = new SolidColorBrush(MColor.FromArgb(125, 0, 0, 0));
         public static SolidColorBrush ButtonFontColor { get; set; } = new SolidColorBrush(MColor.FromArgb(0, 0, 0, 0));
 
         public static SolidColorBrush ButtonInvisibleFont = new SolidColorBrush(MColor.FromArgb(0, 0, 0, 0));

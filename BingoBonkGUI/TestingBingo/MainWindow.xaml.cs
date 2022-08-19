@@ -23,13 +23,15 @@ namespace BionicleHeroesBingoGUI
 
     //Todo:
     //Make code cleaner / Add more (meaningful) comments
+    public record Message(string Key, string Username, int Tile);
+
     public partial class MainWindow : Window
     {
         private BingoLogic bingoLogic = new BingoLogic();
         private List<WrapButton> Buttons = new List<WrapButton>();
         private PopoutGrid PopoutGrid;
         private List<string> CurrentBoard = new List<string>();
-
+        private string Key = "";
         //Networking Stuff
         public SocketIO Client { get; private set; }
         public User User { get; private set; }
@@ -101,11 +103,14 @@ namespace BionicleHeroesBingoGUI
 
             }
         }
-        private void Button_Click(Object sender, RoutedEventArgs e)
+        private async void Button_Click(Object sender, RoutedEventArgs e)
         {
             WrapButton? wp = sender as WrapButton;
             int buttonIndex = int.Parse(wp.Name.Remove(0, 1));
             Buttons[buttonIndex].IsClicked = !Buttons[buttonIndex].IsClicked;//Toggle on off
+
+            await Client.EmitAsync("usrClick", new Message(Key, User.Username, buttonIndex));
+
             //Make sure we dont cause a fuckin memory leak lmfao... 
             //OK Fixed, Memory leaks are no more
 
@@ -288,6 +293,7 @@ namespace BionicleHeroesBingoGUI
             //Client.Options.Auth = a;
             Client.Options.ExtraHeaders = new Dictionary<string, string>();
             Client.Options.ExtraHeaders["KEY"] = a;
+            Key = a;
             Client.OnConnected += async (sender, e) =>
             {
                 Dispatcher.Invoke(new Action(() => { ConnectionStatusText.Text = "Connection Status: Connected"; ConnectButton.IsEnabled = false; }));
@@ -307,9 +313,21 @@ namespace BionicleHeroesBingoGUI
                 CurrentBoard = bingoLogic.GenerateBoard(Flags, BoardConfig.Seed, f);
                 // MessageBox.Show(String.Join("\n", board));
                 Client.EmitAsync("SendBoard", CurrentBoard);
-                Dispatcher.Invoke(new Action(() => {
+                Dispatcher.Invoke(new Action(() =>
+                {
                     FillButtonText(CurrentBoard);
                 }));
+            });
+
+            Client.On("usrClick", response =>
+            {
+                Message m = response.GetValue<Message>();
+                if (User.Username != m.Username)
+                {
+                    Dispatcher.Invoke(new Action(() => { Buttons[m.Tile].Background = Configuration.ButtonSelectedColorP2; }));
+
+
+                }
             });
 
             Client.On("boardUpadte", response =>
@@ -322,7 +340,8 @@ namespace BionicleHeroesBingoGUI
                 //MessageBox.Show(String.Join("\n", board));
 
                 Client.EmitAsync("SendBoard", CurrentBoard);
-                Dispatcher.Invoke(new Action(() => {
+                Dispatcher.Invoke(new Action(() =>
+                {
                     FillButtonText(CurrentBoard);
                 }));
             });
