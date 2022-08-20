@@ -13,12 +13,13 @@ using System.Windows.Shapes;
 using WpfAnimatedGif;
 namespace BionicleHeroesBingoGUI
 {
-    internal class WrapButton : Button
+    public class WrapButton : Button
     {
 
         public static readonly DependencyProperty TextProperty = DependencyProperty.Register("Text", typeof(string), typeof(WrapButton), new PropertyMetadata(string.Empty));
         public string Text { get { return (string)GetValue(TextProperty); } set { SetValue(TextProperty, value); } }
         public bool IsClicked { get; set; }
+        public bool P2Clicked { get; set; }
         public Image ButtonImage { get; private set; } = new Image();
         public WrapButton()
         {

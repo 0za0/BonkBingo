@@ -62,8 +62,6 @@ namespace BionicleHeroesBingoGUI.Views
             WrapButton? wp = sender as WrapButton;
             int buttonIndex = int.Parse(wp.Name.Remove(0, 1));
             Buttons[buttonIndex].IsClicked = !Buttons[buttonIndex].IsClicked;//Toggle on off
-            //Make sure we dont cause a fuckin memory leak lmfao... 
-            //OK Fixed, Memory leaks are no more
 
             if (Buttons[buttonIndex].IsClicked)
             {

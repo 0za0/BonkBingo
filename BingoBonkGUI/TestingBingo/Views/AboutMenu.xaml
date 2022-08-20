@@ -5,9 +5,15 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BionicleHeroesBingoGUI.Views"
         mc:Ignorable="d"
-        Title="About" Height="250" Width="400">
+        Title="About" Height="250" Width="400" Topmost="True">
     <Grid>
-        <TextBlock x:Name="AboutText" HorizontalAlignment="Left" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Height="234" Width="400"/>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
 
     </Grid>
 </Window>

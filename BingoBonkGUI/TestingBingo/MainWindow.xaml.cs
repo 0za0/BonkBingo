@@ -29,7 +29,7 @@ namespace BionicleHeroesBingoGUI
     {
         private BingoLogic bingoLogic = new BingoLogic();
         private List<WrapButton> Buttons = new List<WrapButton>();
-        private PopoutGrid PopoutGrid;
+        private PopoutBoard PopoutGrid;
         private List<string> CurrentBoard = new List<string>();
         private string Key = "";
         //Networking Stuff
@@ -49,7 +49,7 @@ namespace BionicleHeroesBingoGUI
             bingoLogic.GenerateControlsNeeded();
             InitializeComponent();
             CreateButtons();
-            PopoutGrid = new PopoutGrid();
+            PopoutGrid = new PopoutBoard(Button_Click);
             //GenerateFlags();
 
             if (Configuration.BitmapImage == null)
@@ -117,37 +117,35 @@ namespace BionicleHeroesBingoGUI
 
             if (Buttons[buttonIndex].IsClicked)
             {
-                //To avoid the warning I do ==true
-                if (UseImages.IsChecked == true)
+                if (Buttons[buttonIndex].P2Clicked && Buttons[buttonIndex].IsClicked)
                 {
+                    Buttons[buttonIndex].Background = Configuration.TwoPlayerColors;
+                    PopoutGrid.Buttons[buttonIndex].Background = Configuration.TwoPlayerColors;
 
-                    Buttons[buttonIndex].ButtonImage.Visibility = Visibility.Visible;
-                    Buttons[buttonIndex].Background = Configuration.ButtonSelectedColor;
-                    if (HideText.IsChecked == true)
-                    {
-                        Buttons[buttonIndex].Foreground = Configuration.ButtonInvisibleFont;
-                    }
                 }
-
                 else
                 {
-                    if (Buttons[buttonIndex].Background != Configuration.ButtonDeselectedColor)
-                    {
-                        Buttons[buttonIndex].Background = Configuration.TwoPlayerColors;
-
-                    }
-                    else
-                    {
-
                     Buttons[buttonIndex].Background = Configuration.ButtonSelectedColor;
-                    }
+                    PopoutGrid.Buttons[buttonIndex].Background = Configuration.ButtonSelectedColor;
                 }
+
+            }
+            else if (Buttons[buttonIndex].P2Clicked)
+            {
+                Buttons[buttonIndex].Background = Configuration.ButtonSelectedColorP2;
+                Buttons[buttonIndex].Foreground = Configuration.ButtonFontColor;
+
+                PopoutGrid.Buttons[buttonIndex].Background = Configuration.ButtonSelectedColorP2;
+                PopoutGrid.Buttons[buttonIndex].Foreground = Configuration.ButtonFontColor;
+
             }
             else
             {
-                Buttons[buttonIndex].ButtonImage.Visibility = Visibility.Hidden;
                 Buttons[buttonIndex].Background = Configuration.ButtonDeselectedColor;
                 Buttons[buttonIndex].Foreground = Configuration.ButtonFontColor;
+
+                PopoutGrid.Buttons[buttonIndex].Background = Configuration.ButtonDeselectedColor;
+                PopoutGrid.Buttons[buttonIndex].Foreground = Configuration.ButtonFontColor;
             }
 
 
@@ -162,7 +160,7 @@ namespace BionicleHeroesBingoGUI
             PopoutGrid.FillBoard(CurrentBoard);
             PopoutGrid.Show();
             PopoutBoardButton.IsEnabled = false;
-            PopoutGrid.Closed += (obj, e) => { PopoutBoardButton.IsEnabled = true; PopoutGrid = new PopoutGrid(); };
+            PopoutGrid.Closed += (obj, e) => { PopoutBoardButton.IsEnabled = true; PopoutGrid = new PopoutBoard(Button_Click); };
         }
         private void Generate(object sender, RoutedEventArgs e)
         {
@@ -214,19 +212,19 @@ namespace BionicleHeroesBingoGUI
         //Sum checked and unchecked into 1 event, its possible I am tired tho
         private void UseImages_Checked(object sender, RoutedEventArgs e)
         {
-            PopoutGrid.UseImages = !PopoutGrid.UseImages;
-            Buttons.Where(x => x.IsClicked).ToList().ForEach(x => x.ButtonImage.Visibility = Visibility.Visible);
-            PopoutGrid.UpdateButtonColors();
+            //PopoutGrid.UseImages = !PopoutGrid.UseImages;
+            //Buttons.Where(x => x.IsClicked).ToList().ForEach(x => x.ButtonImage.Visibility = Visibility.Visible);
+            //PopoutGrid.UpdateButtonColors();
         }
         private void UseImages_Unchecked(object sender, RoutedEventArgs e)
         {
-            PopoutGrid.UseImages = !PopoutGrid.UseImages;
+            //PopoutGrid.UseImages = !PopoutGrid.UseImages;
             Buttons.Where(x => x.IsClicked).ToList().ForEach(x =>
             {
                 x.Background = Configuration.ButtonSelectedColor;
                 x.ButtonImage.Visibility = Visibility.Hidden;
             });
-            PopoutGrid.UpdateButtonColors();
+            //PopoutGrid.UpdateButtonColors();
         }
         //Apply to PopoutBoard
         private void HideText_Checked(object sender, RoutedEventArgs e)
@@ -236,8 +234,8 @@ namespace BionicleHeroesBingoGUI
                 foreach (var item in Buttons.Where(btn => btn.IsClicked))
                     item.Foreground = Configuration.ButtonInvisibleFont;
 
-                PopoutGrid.HideText = !PopoutGrid.HideText;
-                PopoutGrid.UpdateButtonColors();
+                //PopoutGrid.HideText = !PopoutGrid.HideText;
+                //PopoutGrid.UpdateButtonColors();
 
             }
         }
@@ -246,8 +244,8 @@ namespace BionicleHeroesBingoGUI
             foreach (var item in Buttons.Where(btn => btn.IsClicked))
                 item.Foreground = Configuration.ButtonFontColor;
 
-            PopoutGrid.HideText = !PopoutGrid.HideText;
-            PopoutGrid.UpdateButtonColors();
+            //PopoutGrid.HideText = !PopoutGrid.HideText;
+            //PopoutGrid.UpdateButtonColors();
         }
         private void SettingsMenu(object sender, RoutedEventArgs e)
         {
@@ -335,16 +333,32 @@ namespace BionicleHeroesBingoGUI
                 Message m = response.GetValue<Message>();
                 if (User.Username != m.Username)
                 {
-                    if (Buttons[m.Tile].IsClicked)
+                    Buttons[m.Tile].P2Clicked = !Buttons[m.Tile].P2Clicked;
+
+                    if (Buttons[m.Tile].P2Clicked && Buttons[m.Tile].IsClicked)
                     {
                         Dispatcher.Invoke(new Action(() => { Buttons[m.Tile].Background = Configuration.TwoPlayerColors; }));
+                        Dispatcher.Invoke(new Action(() => { PopoutGrid.Buttons[m.Tile].Background = Configuration.TwoPlayerColors; }));
+
+                    }
+                    else if (Buttons[m.Tile].P2Clicked)
+                    {
+                        Dispatcher.Invoke(new Action(() => { Buttons[m.Tile].Background = Configuration.ButtonSelectedColorP2; }));
+                        Dispatcher.Invoke(new Action(() => { PopoutGrid.Buttons[m.Tile].Background = Configuration.ButtonSelectedColorP2; }));
+
+                    }
+                    else if (!Buttons[m.Tile].P2Clicked&& Buttons[m.Tile].IsClicked)
+                    {
+                        Dispatcher.Invoke(new Action(() => { Buttons[m.Tile].Background = Configuration.ButtonSelectedColor; }));
+                        Dispatcher.Invoke(new Action(() => { PopoutGrid.Buttons[m.Tile].Background = Configuration.ButtonSelectedColor; }));
 
                     }
                     else
                     {
-                        Dispatcher.Invoke(new Action(() => { Buttons[m.Tile].Background = Configuration.ButtonSelectedColorP2; }));
-                    }
+                        Dispatcher.Invoke(new Action(() => { Buttons[m.Tile].Background = Configuration.ButtonDeselectedColor; }));
+                        Dispatcher.Invoke(new Action(() => { PopoutGrid.Buttons[m.Tile].Background = Configuration.ButtonDeselectedColor; }));
 
+                    }
                 }
             });
 
