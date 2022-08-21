@@ -24,8 +24,6 @@ namespace BionicleHeroesBingoGUI.Views
     public partial class PopoutGrid : Window
     {
         private List<WrapButton> Buttons = new List<WrapButton>();
-        public bool UseImages { get; set; }
-        public bool HideText { get; set; }
         public PopoutGrid()
         {
             InitializeComponent();
@@ -66,8 +64,6 @@ namespace BionicleHeroesBingoGUI.Views
             if (Buttons[buttonIndex].IsClicked)
             {
                 Buttons[buttonIndex].Background = Configuration.ButtonSelectedColor;
-                if (UseImages)
-                    Buttons[buttonIndex].ButtonImage.Visibility = Visibility.Visible;
             }
             else
             {
@@ -91,17 +87,8 @@ namespace BionicleHeroesBingoGUI.Views
         }
         public void UpdateButtonColors()
         {
-            if (UseImages)
-            {
-                Buttons.Where(x => x.IsClicked).ToList().ForEach(x => x.ButtonImage.Visibility = Visibility.Visible);
+         
 
-                if (HideText)
-                    Buttons.Where(x => x.IsClicked).ToList().ForEach(x => x.Foreground = Configuration.ButtonInvisibleFont);
-                else
-                    Buttons.Where(x => x.IsClicked).ToList().ForEach(x => x.Foreground = Configuration.ButtonFontColor);
-            }
-
-            else
                 Buttons.Where(x => x.IsClicked).ToList().ForEach(x =>
                 {
                     x.Foreground = Configuration.ButtonFontColor;

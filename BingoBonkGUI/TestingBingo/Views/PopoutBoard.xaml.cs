@@ -61,9 +61,9 @@ namespace BionicleHeroesBingoGUI.Views
             {
                 for (int i = 0; i < 25; i++)
                 {
-                    Buttons[i].ButtonImage.Visibility = Visibility.Hidden;
-                    Buttons[i].Background = Configuration.ButtonDeselectedColor;
-                    Buttons[i].Foreground = Configuration.ButtonFontColor;
+                    //Buttons[i].ButtonImage.Visibility = Visibility.Hidden;
+                    //Buttons[i].Background = Configuration.ButtonDeselectedColor;
+                    //Buttons[i].Foreground = Configuration.ButtonFontColor;
                     Buttons[i].Text = board[i];
                 }
             }

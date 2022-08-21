@@ -52,8 +52,7 @@ namespace BionicleHeroesBingoGUI
             PopoutGrid = new PopoutBoard(Button_Click);
             //GenerateFlags();
 
-            if (Configuration.BitmapImage == null)
-                UseImages.IsEnabled = false;
+        
         }
         private void GenerateFlags()
         {
@@ -110,18 +109,12 @@ namespace BionicleHeroesBingoGUI
             Buttons[buttonIndex].IsClicked = !Buttons[buttonIndex].IsClicked;//Toggle on off
 
             await Client.EmitAsync("usrClick", new Message(Key, User.Username, buttonIndex));
-
-            //Make sure we dont cause a fuckin memory leak lmfao... 
-            //OK Fixed, Memory leaks are no more
-
-
             if (Buttons[buttonIndex].IsClicked)
             {
                 if (Buttons[buttonIndex].P2Clicked && Buttons[buttonIndex].IsClicked)
                 {
                     Buttons[buttonIndex].Background = Configuration.TwoPlayerColors;
                     PopoutGrid.Buttons[buttonIndex].Background = Configuration.TwoPlayerColors;
-
                 }
                 else
                 {
@@ -134,16 +127,13 @@ namespace BionicleHeroesBingoGUI
             {
                 Buttons[buttonIndex].Background = Configuration.ButtonSelectedColorP2;
                 Buttons[buttonIndex].Foreground = Configuration.ButtonFontColor;
-
                 PopoutGrid.Buttons[buttonIndex].Background = Configuration.ButtonSelectedColorP2;
                 PopoutGrid.Buttons[buttonIndex].Foreground = Configuration.ButtonFontColor;
-
             }
             else
             {
                 Buttons[buttonIndex].Background = Configuration.ButtonDeselectedColor;
                 Buttons[buttonIndex].Foreground = Configuration.ButtonFontColor;
-
                 PopoutGrid.Buttons[buttonIndex].Background = Configuration.ButtonDeselectedColor;
                 PopoutGrid.Buttons[buttonIndex].Foreground = Configuration.ButtonFontColor;
             }
@@ -151,16 +141,17 @@ namespace BionicleHeroesBingoGUI
 
 
         }
-        //private void RegenSeedButtonClicked(object sender, RoutedEventArgs e)
-        //{
-        //    SeedTextBox.Text = bingoLogic.GenerateSeed().ToString();
-        //}
         private void PopOutBtnClicked(object sender, RoutedEventArgs e)
         {
             PopoutGrid.FillBoard(CurrentBoard);
-            PopoutGrid.Show();
+            PopoutGrid.Visibility = Visibility.Visible;
             PopoutBoardButton.IsEnabled = false;
-            PopoutGrid.Closed += (obj, e) => { PopoutBoardButton.IsEnabled = true; PopoutGrid = new PopoutBoard(Button_Click); };
+            PopoutGrid.Closing += (obj, e) =>
+            {
+                PopoutBoardButton.IsEnabled = true;
+                e.Cancel = true;
+                PopoutGrid.Visibility = Visibility.Hidden;
+            };
         }
         private void Generate(object sender, RoutedEventArgs e)
         {
@@ -227,18 +218,7 @@ namespace BionicleHeroesBingoGUI
             //PopoutGrid.UpdateButtonColors();
         }
         //Apply to PopoutBoard
-        private void HideText_Checked(object sender, RoutedEventArgs e)
-        {
-            if (UseImages.IsChecked == true && HideText.IsChecked == true)
-            {
-                foreach (var item in Buttons.Where(btn => btn.IsClicked))
-                    item.Foreground = Configuration.ButtonInvisibleFont;
-
-                //PopoutGrid.HideText = !PopoutGrid.HideText;
-                //PopoutGrid.UpdateButtonColors();
-
-            }
-        }
+        
         private void HideText_Unchecked(object sender, RoutedEventArgs e)
         {
             foreach (var item in Buttons.Where(btn => btn.IsClicked))
@@ -253,15 +233,6 @@ namespace BionicleHeroesBingoGUI
             s.Show();
             s.Closed += (obj, e) =>
             {
-                if (Configuration.BitmapImage == null)
-                    UseImages.IsEnabled = false;
-                else
-                    UseImages.IsEnabled = true;
-
-
-                Buttons.Clear();
-                CreateButtons();
-                FillButtonText(CurrentBoard);
                 ApplyNewColorToButtons();
             };
 
@@ -272,8 +243,13 @@ namespace BionicleHeroesBingoGUI
             foreach (var item in Buttons)
             {
                 item.Foreground = Configuration.ButtonFontColor;
-                if (item.IsClicked)
+
+                if (item.IsClicked && item.P2Clicked)
+                    item.Background = Configuration.TwoPlayerColors;
+
+                else if (item.IsClicked)
                     item.Background = Configuration.ButtonSelectedColor;
+
                 else
                     item.Background = Configuration.ButtonDeselectedColor;
 
@@ -293,9 +269,20 @@ namespace BionicleHeroesBingoGUI
                 ImageHelpers.SaveAsPng(ImageHelpers.GetImage(MainGrid), fileStream);
             }
         }
+        private async void DisconnectButtonClicked(object sender, RoutedEventArgs e)
+        {
+            await Client.DisconnectAsync();
+            Dispatcher.Invoke(new Action(() =>
+            {
+                ConnectionStatusText.Text = "Connection Status: Disconnected";
+                ConnectButton.IsEnabled = true;
+                DisconnectButton.IsEnabled = false;
+            }));
 
+        }
         private async void ConnectButtonClicked(object sender, RoutedEventArgs e)
         {
+            ConnectButton.IsEnabled = false;
             string a = "";
             Dispatcher.Invoke(new Action(() => { a = KeyTextBox.Text; }));
             Client = new SocketIO($"http://bingo.test.dev:5000/{a}");
@@ -303,13 +290,25 @@ namespace BionicleHeroesBingoGUI
             Client.Options.ExtraHeaders = new Dictionary<string, string>();
             Client.Options.ExtraHeaders["KEY"] = a;
             Key = a;
+
             Client.OnConnected += async (sender, e) =>
             {
-                Dispatcher.Invoke(new Action(() => { ConnectionStatusText.Text = "Connection Status: Connected"; ConnectButton.IsEnabled = false; }));
+                Dispatcher.Invoke(new Action(() =>
+                {
+                    ConnectionStatusText.Text = "Connection Status: Connected";
+                    ConnectButton.IsEnabled = false;
+                    DisconnectButton.IsEnabled = true;
+                }));
             };
+
             Client.OnDisconnected += async (sender, e) =>
             {
-                Dispatcher.Invoke(new Action(() => { ConnectionStatusText.Text = "Connection Status: Disconnected"; ConnectButton.IsEnabled = true; }));
+                Dispatcher.Invoke(new Action(() =>
+                {
+                    ConnectionStatusText.Text = "Connection Status: Disconnected";
+                    ConnectButton.IsEnabled = true;
+                    DisconnectButton.IsEnabled = false;
+                }));
             };
 
             Client.On("successRegister", response =>
@@ -347,7 +346,7 @@ namespace BionicleHeroesBingoGUI
                         Dispatcher.Invoke(new Action(() => { PopoutGrid.Buttons[m.Tile].Background = Configuration.ButtonSelectedColorP2; }));
 
                     }
-                    else if (!Buttons[m.Tile].P2Clicked&& Buttons[m.Tile].IsClicked)
+                    else if (!Buttons[m.Tile].P2Clicked && Buttons[m.Tile].IsClicked)
                     {
                         Dispatcher.Invoke(new Action(() => { Buttons[m.Tile].Background = Configuration.ButtonSelectedColor; }));
                         Dispatcher.Invoke(new Action(() => { PopoutGrid.Buttons[m.Tile].Background = Configuration.ButtonSelectedColor; }));
@@ -377,6 +376,8 @@ namespace BionicleHeroesBingoGUI
                     FillButtonText(CurrentBoard);
                 }));
             });
+
+
             await Client.ConnectAsync();
             User = new User(UsernameTextBox.Text, KeyTextBox.Text);
             await Client.EmitAsync("register", User);
