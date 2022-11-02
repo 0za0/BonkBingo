@@ -1,5 +1,7 @@
 # BonkBingo
-A Bingo Board Generator for Bionicle Heroes or any game
+**This project is being re-written in a different UI Framework with Online Multiplayer - Stay tuned**
+
+A Bingo Board Generator for Bionicle Heroes (or any game)
 
 
 This version loads the entire board from the board.kongu
@@ -7,6 +9,8 @@ This version loads the entire board from the board.kongu
 
 
 **Original Script by Nordki/Ondrik**
+
+
 
 # Feedback / Bugs
 Just hit me up on Discord or create an issue, I'll try my best.
