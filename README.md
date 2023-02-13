@@ -13,10 +13,11 @@ This version loads the entire board from the board.kongu
 
 
 # Feedback / Bugs
-Please create a Github Issue detailing what went wrong or could be improved.
+~~Please create a Github Issue detailing what went wrong or could be improved.
 
 
-Thanks
+Thanks~~
+No.
 
 # GIF Support (Experimental) 
 Buttons can display animated gifs, but be careful, this can quickly eat up a lot of RAM, because the Library used for this caches **every goddamn frame** in memory.
