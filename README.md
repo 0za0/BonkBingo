@@ -13,10 +13,11 @@ This version loads the entire board from the board.kongu
 
 
 # Feedback / Bugs
-~~Please create a Github Issue detailing what went wrong or could be improved.
+~~Please create a Github Issue detailing what went wrong or could be improved.~~
 
 
-Thanks~~
+~~Thanks~~
+
 No.
 
 # GIF Support (Experimental) 
