@@ -62,6 +62,16 @@
                 <TextBox x:Name="SeedTextBox" TextWrapping="Wrap" Text="-1" VerticalAlignment="Top" Width="120"/>
                 <Button Click="RegenSeedButtonClicked">Regen Seed</Button>
             </StackPanel>
+            <TextBox Text="" x:Name="GeneratedSeedText">
+                <TextBox.Style>
+                    <Style TargetType="TextBox">
+                        <Setter Property="IsReadOnly" Value="True" />
+                        <Setter Property="BorderThickness" Value="0" />
+                        <Setter Property="TextWrapping" Value="Wrap" />
+                    </Style>
+                </TextBox.Style>
+            </TextBox>
+
             <Button Content="Generate New Board"  Click="Generate"  VerticalAlignment="Top" HorizontalAlignment="Left"  />
             <Button x:Name="PopoutBoardButton" Content="Popout Board"  Click="PopOutBtnClicked"  VerticalAlignment="Top" HorizontalAlignment="Left"  />
 

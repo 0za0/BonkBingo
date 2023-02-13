@@ -164,7 +164,8 @@ namespace BionicleHeroesBingoGUI
                 CurrentBoard = bingoLogic.GenerateBoard(flagsInOrder, seed, flagsValue);
                 PopoutGrid.FillBoard(CurrentBoard);
                 FillButtonText(CurrentBoard);
-
+                //GeneratedSeedLabel.Content = $"Generated Seed: {bingoLogic.Seed}";
+                GeneratedSeedText.Text = $"Generated Seed: {bingoLogic.Seed}";
                 foreach (var item in Buttons)
                 {
                     item.ButtonImage.Visibility = Visibility.Hidden;
@@ -267,9 +268,13 @@ namespace BionicleHeroesBingoGUI
         }
         private void SaveFileAsPNGClicked(object sender, RoutedEventArgs e)
         {
-            using (var fileStream = File.Create($"./Saved Boards/{((DateTimeOffset)DateTime.Now).ToUnixTimeSeconds()}--{bingoLogic.Seed}.png"))
+            using (var fileStream = File.Create($"./Saved Boards/TIME-{((DateTimeOffset)DateTime.Now).ToUnixTimeSeconds()}-SEED-{bingoLogic.Seed}.png"))
             {
-                ImageHelpers.SaveAsPng(ImageHelpers.GetImage(MainGrid), fileStream);
+                //var CheckBoxes = ImageHelpers.GetImage(FlagsStack);
+                //var mainGrid = ImageHelpers.GetImage(MainGrid);
+                //RenderTargetBitmap bmp = new RenderTargetBitmap();
+                var bmp = ImageHelpers.CopyManyUiElementToClipboard(new List<FrameworkElement> { FlagsStack,MainGrid });
+                ImageHelpers.SaveAsPng(bmp, fileStream);
             }
         }
     }
